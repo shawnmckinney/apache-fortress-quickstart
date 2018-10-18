@@ -1,0 +1,8 @@
+<FortRequest>
+	<contextId>HOME</contextId>
+	<entity xsi:type="permObj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<objName>Branch</objName>
+		<description>Controls the login to test bank app</description>
+		<ou>default</ou>
+	</entity>
+</FortRequest>

@@ -1,0 +1,7 @@
+<FortRequest>
+      <contextId>HOME</contextId>
+      <entity xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         <userId>moe</userId>
+         <props><entry><key>locale</key><value>north</value></entry></props>
+      </entity>
+</FortRequest>

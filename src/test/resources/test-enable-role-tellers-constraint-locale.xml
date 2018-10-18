@@ -1,0 +1,10 @@
+<FortRequest>
+	<contextId>HOME</contextId>
+	<entity xsi:type="role" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<name>tellers</name>
+	</entity>
+	<entity2 xsi:type="roleConstraint" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<key>locale</key>
+        <type>NA</type>
+	</entity2>
+</FortRequest>

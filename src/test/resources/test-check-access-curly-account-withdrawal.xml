@@ -1,0 +1,16 @@
+<FortRequest>
+	<contextId>HOME</contextId>
+	<entity xsi:type="permission" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<objName>Account</objName>
+		<opName>withdrawal</opName>
+	</entity>
+	<session>
+		<user>
+			<roles>
+				<name>Tellers</name>
+				<timeout>0</timeout>
+			</roles>
+			<dn>uid=curly,ou=People,dc=example,dc=com</dn>
+		</user>
+	</session>
+</FortRequest>

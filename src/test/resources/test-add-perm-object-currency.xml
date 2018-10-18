@@ -1,0 +1,8 @@
+<FortRequest>
+	<contextId>HOME</contextId>
+	<entity xsi:type="permObj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<objName>Currency</objName>
+		<description>Resource to test currency ops</description>
+		<ou>default</ou>
+	</entity>
+</FortRequest>

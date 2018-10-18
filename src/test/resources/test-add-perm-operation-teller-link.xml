@@ -1,0 +1,7 @@
+<FortRequest>
+	<contextId>HOME</contextId>
+	<entity xsi:type="permission" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<objName>TellersPage</objName>
+		<opName>link</opName>
+	</entity>
+</FortRequest>

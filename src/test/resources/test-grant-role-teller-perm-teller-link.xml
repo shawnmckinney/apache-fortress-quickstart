@@ -1,0 +1,8 @@
+<FortRequest>
+	<contextId>HOME</contextId>
+	<entity xsi:type="permGrant" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<objName>TellersPage</objName>
+		<opName>link</opName>
+		<roleNm>Tellers</roleNm>
+	</entity>
+</FortRequest>

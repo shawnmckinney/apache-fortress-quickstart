@@ -1,0 +1,7 @@
+<FortRequest>
+      <contextId>HOME</contextId>
+      <entity xsi:type="userRole" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         <userId>curly</userId>
+         <name>washers</name>
+      </entity>
+</FortRequest>

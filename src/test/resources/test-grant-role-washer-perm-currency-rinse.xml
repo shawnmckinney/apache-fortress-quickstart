@@ -1,0 +1,8 @@
+<FortRequest>
+	<contextId>HOME</contextId>
+	<entity xsi:type="permGrant" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<objName>Currency</objName>
+		<opName>rinse</opName>
+		<roleNm>Washers</roleNm>
+	</entity>
+</FortRequest>

@@ -1,0 +1,10 @@
+<FortRequest>
+      <contextId>HOME</contextId>
+      <entity xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         <userId>moe</userId>
+         <description>moe is a test user</description>
+         <ou>default</ou>
+         <sn>howard</sn>
+         <cn>moe howard</cn>
+      </entity>
+</FortRequest>

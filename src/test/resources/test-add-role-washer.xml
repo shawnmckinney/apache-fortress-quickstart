@@ -1,0 +1,7 @@
+<FortRequest>
+      <contextId>HOME</contextId>
+      <entity xsi:type="role" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         <name>Washers</name>
+         <description>Test Role for Washers in Fortress RBAC-ABAC Demo.</description>
+      </entity>
+</FortRequest>
