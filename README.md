@@ -41,20 +41,7 @@ This sample web app uses Java EE security.
 
  Note: The realm proxy enables Tomcat container-managed security functions to call back to fortress.
 
-#### 2. Optional - Prepare tomcat to allow autodeploy of rbac-abac-sample web app:
-
- ```bash
- sudo vi /usr/local/tomcat8/conf/tomcat-users.xml
- ```
-
-#### 3. Optional - Add tomcat user to deploy rbac-abac-sample:
-
- ```xml
- <role rolename="manager-script"/>
- <user username="tcmanager" password="m@nager123" roles="manager-script"/>
- ```
-
-#### 4. Restart tomcat for new settings to take effect.
+#### 2. Restart tomcat so it can pick up the new jar file on its system classpath.
 
 -------------------------------------------------------------------------------
 ## SECTION III. Prepare apache-fortress-quickstart package
