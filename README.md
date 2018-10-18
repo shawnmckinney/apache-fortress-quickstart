@@ -12,9 +12,10 @@ Work-In-Progress
  * SECTION 1. Prerequisites
  * SECTION 2. Prepare Tomcat for Java EE Security
  * SECTION 3. Prepare apache-fortress-quickstart package
- * SECTION 4. Build and deploy rbac-abac-sample
- * SECTION 5. Understand the security policy
- * SECTION 6. Under the Hood (Learn how it works here)
+ * SECTION 4. Configure Apache Tomcat and Deploy Apache Fortress Rest
+ * SECTION 5. Test Apache Fortress Rest with Curl
+ * SECTION 6. Understand the security policy
+ * SECTION 7. Under the Hood (Learn how it works here)
 
 -------------------------------------------------------------------------------
 ## SECTION I. Prerequisites
@@ -56,14 +57,14 @@ This sample web app uses Java EE security.
 #### 4. Restart tomcat for new settings to take effect.
 
 -------------------------------------------------------------------------------
-## SECTION III. Prepare rbac-abac-sample package
+## SECTION III. Prepare apache-fortress-quickstart package
 
 #### 1. Stage the project.
 
  a. Download and extract from Github:
 
  ```bash
- wget https://github.com/shawnmckinney/rbac-abac-sample/archive/master.zip
+ wget https://github.com/shawnmckinney/apache-fortress-quickstart/archive/master.zip
  ```
 
  -- Or --
@@ -71,13 +72,13 @@ This sample web app uses Java EE security.
  b. Or `git clone` locally:
 
  ```git
- git clone https://github.com/shawnmckinney/rbac-abac-sample.git
+ git clone https://github.com/shawnmckinney/apache-fortress-quickstart.git
  ```
 
 #### 2. Change directory into it:
 
  ```bash
- cd rbac-abac-sample
+ cd apache-fortress-quickstart
  ```
 
 #### 3. Enable an LDAP server:
@@ -132,10 +133,7 @@ This sample web app uses Java EE security.
  admin.pw=secret
  ```
 
--------------------------------------------------------------------------------
-## SECTION IV. Prepare apache-fortress-quickstart
-
-#### 1. Verify the java and maven home env variables are set.
+#### 4. Verify the java and maven home env variables are set.
 
  ```maven
  mvn -version
@@ -143,24 +141,23 @@ This sample web app uses Java EE security.
 
  This sample requires Java 8 and Maven 3 to be setup within the execution env.
 
-#### 2. Build the sample and load test data:
+#### 5. Load security policy and configuration data into LDAP for Quickstart testing:
 
   ```maven
- mvn install -Dload.file
+ mvn install -Dload.file=./src/main/resources/FortressRestServerPolicy.xml
   ```
 
  Build Notes:
- * `-Dload.file` automatically loads the [rbac-abac-sample security policy](src/main/resources/rbac-abac-sample-security-policy.xml) data into ldap.
- * This load needs to happen just once for the default test cases to work and may be dropped from future `mvn` commands.
+ * `-Dload.file` above points to [FortressRestServerPolicy](src/main/resources/FortressRestServerPolicy.xml) data into ldap.
 
 ___________________________________________________________________________________
-## SECTION V. Configure Tomcat and Deploy Fortress Rest
+## SECTION IV. Configure Apache Tomcat and Deploy Apache Fortress Rest
 
 Set the java system properties in tomcat with the target ldap server's coordinates.
 
-1. Edit the startup script for Tomcat
+#### 1. Edit the startup script for Tomcat
 
-2. Set the java opts
+#### 2. Set the java opts
 
  a. For OpenLDAP SSL:
 
@@ -186,9 +183,9 @@ Set the java system properties in tomcat with the target ldap server's coordinat
  JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=10389 -Dfortress.admin.user=uid=admin,ou=system -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=apacheds -Dfortress.enable.ldap.ssl=false -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
-3. Verify these settings match your target LDAP server.
+#### 3. Verify these settings match your target LDAP server.
 
-4. Download the fortress rest war into tomcat/webapps folder:
+#### 4. Download the fortress rest war into tomcat/webapps folder:
 
   ```
   wget http://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-rest/2.0.2/fortress-rest-2.0.2.war -P $TOMCAT_HOME/webapps
@@ -197,12 +194,11 @@ Set the java system properties in tomcat with the target ldap server's coordinat
   where *TOMCAT_HOME* matches your target env.
 
 ___________________________________________________________________________________
-## SECTION VI. Test Fortress Rest with Curl
-
+## SECTION V. Test Apache Fortress Rest with Curl
 
 Run the following curl commands from src/test/resources folder, where the request xml files are located.  Use a password of 'password' for the tests.
 
-### Add Role:
+#### 1. Add Role:
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-bankuser.xml http://localhost:8080/fortress-rest-2.0.2/roleAdd
@@ -210,7 +206,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-washer.xml http://localhost:8080/fortress-rest-2.0.2/roleAdd
  ```
 
-#### Sample request add role bank_users
+##### Sample request add role bank_users
  ```:
  <FortRequest>
       <contextId>HOME</contextId>
@@ -221,14 +217,14 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-### Enable Role Constraint:
+#### 2. Enable Role Constraint:
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-enable-role-tellers-constraint-locale.xml http://localhost:8080/fortress-rest-2.0.2/roleEnableConstraint
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-enable-role-washers-constraint-locale.xml http://localhost:8080/fortress-rest-2.0.2/roleEnableConstraint
  ```
 
-#### Sample request to constrain role Tellers by locale:
+##### Sample request to constrain role Tellers by locale:
 
  ```
  <FortRequest>
@@ -243,13 +239,13 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-### Search Role:
+#### 3. Search Role:
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-search-role.xml http://localhost:8080/fortress-rest-2.0.2/roleSearch
  ```
 
-#### Sample request will pull back all roles
+##### Sample request will pull back all roles
  ```
  <FortRequest>
     <contextId>HOME</contextId>
@@ -257,7 +253,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-### Add User:
+#### 4. Add User:
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-user-curly.xml http://localhost:8080/fortress-rest-2.0.2/userAdd
@@ -265,7 +261,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-user-larry.xml http://localhost:8080/fortress-rest-2.0.2/userAdd
  ```
 
-#### Sample request add Curly:
+##### Sample request add Curly:
 
  ```
  <FortRequest>
@@ -280,13 +276,13 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-### Search Users:
+#### 5. Search Users:
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-search-user.xml http://localhost:8080/fortress-rest-2.0.2/userSearch
  ```
 
-#### Sample request pull back all users
+##### Sample request pull back all users
 
  ```
  <FortRequest>
@@ -297,7 +293,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-### Assign Users to Roles:
+#### 6. Assign Users to Roles:
 
  ```
  # Curly:
@@ -314,7 +310,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-larry-washer.xml http://localhost:8080/fortress-rest-2.0.2/roleAsgn
  ```
 
-#### Sample request to assign curly to bank_users role
+##### Sample request to assign curly to bank_users role
 
  ```
  <FortRequest>
@@ -326,7 +322,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-### Add User Role Constraint:
+#### 7. Add User Role Constraint:
 
  ```
  # Curly:
@@ -343,7 +339,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-moe-washer-locale-south.xml http://localhost:8080/fortress-rest-2.0.2/addRoleConstraint
  ```
 
-#### Sample request to add user-role constraint
+##### Sample request to add user-role constraint
 
  ```
  <FortRequest>
@@ -360,7 +356,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-### Test Add Permission Object
+#### 8. Test Add Permission Object
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-account.xml http://localhost:8080/fortress-rest-2.0.2/objAdd
@@ -371,7 +367,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-washer.xml http://localhost:8080/fortress-rest-2.0.2/objAdd
  ```
 
-#### Sample request to add a permission object for account:
+##### Sample request to add a permission object for account:
 
  ```
  <FortRequest>
@@ -384,7 +380,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-### Test Add Permission Operation
+#### 9. Test Add Permission Operation
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-account-deposit.xml http://localhost:8080/fortress-rest-2.0.2/permAdd
@@ -398,7 +394,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-washer-link.xml http://localhost:8080/fortress-rest-2.0.2/permAdd
  ```
 
-#### Sample request to add permission to login to branch:
+##### Sample request to add permission to login to branch:
 
  ```
  <FortRequest>
@@ -410,7 +406,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-### Test Grant Role to Permission
+#### 10. Test Grant Role to Permission
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-bankuser-perm-branch-login.xml http://localhost:8080/fortress-rest-2.0.2/roleGrant
@@ -424,7 +420,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-washer-perm-washer-link.xml http://localhost:8080/fortress-rest-2.0.2/roleGrant
  ```
 
-#### Sample request to grant bankusers to login to branch
+##### Sample request to grant bankusers to login to branch
 
  ```
  <FortRequest>
@@ -437,13 +433,13 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-### Search Permissions:
+#### 11. Search Permissions:
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-search-perms.xml http://localhost:8080/fortress-rest-2.0.2/permSearch
  ```
 
-#### Sample request to pull back all Permissions
+##### Sample request to pull back all Permissions
 
  ```
  <FortRequest>
@@ -455,7 +451,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-### Create Session
+#### 12. Create Session
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-create-session-curly.xml http://localhost:8080/fortress-rest-2.0.2/rbacCreateT
@@ -465,7 +461,7 @@ Run the following curl commands from src/test/resources folder, where the reques
 
  * Note: The role Tellers will be activated in this example, Washers will not, due to role constraints.
 
-#### Sample request to Create Session for curly, locale=east
+##### Sample request to Create Session for curly, locale=east
 
  ```
  <FortRequest>
@@ -477,36 +473,17 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-### Test Check Access
+#### 13. Test Check Access
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-check-access-curly-account-withdrawal.xml http://localhost:8080/fortress-rest-2.0.2/rbacAuthZ
  ```
 
-#### Sample request to Check Permission for curly
-
- ```
-<FortRequest>
-	<contextId>HOME</contextId>
-	<entity xsi:type="permission" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-		<objName>Account</objName>
-		<opName>withdrawal</opName>
-	</entity>
-	<session>
-		<user>
-			<roles>
-				<name>Tellers</name>
-				<timeout>0</timeout>
-			</roles>
-			<dn>uid=curly,ou=People,dc=example,dc=com</dn>
-		</user>
-	</session>
-</FortRequest>
- ```
+##### Sample request to Check Access for curly
 
 
 -------------------------------------------------------------------------------
-## SECTION V. Understand the security policy
+## SECTION VI. Understand the security policy
 
 To gain full understanding, check out the file used to load it into the LDAP directory: [rbac-abac-sample security policy](src/main/resources/rbac-abac-sample-security-policy.xml).
 
@@ -564,7 +541,7 @@ App comprised of three pages, each has buttons and links that are guarded by per
 
 
 -------------------------------------------------------------------------------
-## SECTION VI. Under the Hood
+## SECTION VII. Under the Hood
 
  How does this work?  Have a look at some code...
 
