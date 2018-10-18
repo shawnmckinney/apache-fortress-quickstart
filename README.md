@@ -189,6 +189,9 @@ Set the java system properties in tomcat with the target ldap server's coordinat
 ___________________________________________________________________________________
 ## SECTION V. Test Apache Fortress Rest with Curl
 
+### Services are documented:
+    * [Apache Fortress Service API Reference Guide](http://static.javadoc.io/org.apache.directory.fortress/fortress-rest/2.0.2/org/apache/directory/fortress/rest/FortressServiceImpl.html)
+
 Run the following curl commands from src/test/resources folder, where the request xml files are located.  Use a password of 'password' for the tests.
 
 #### 1. Add Role:
