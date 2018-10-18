@@ -478,8 +478,6 @@ Run the following curl commands from src/test/resources folder, where the reques
 -------------------------------------------------------------------------------
 ## SECTION VI. Understand the security policy
 
-To gain full understanding, check out the file used to load it into the LDAP directory: [rbac-abac-sample security policy](src/main/resources/rbac-abac-sample-security-policy.xml).
-
 App comprised of three pages, each has buttons and links that are guarded by permissions.  The permissions are granted to a particular user via their role activations.
 
 #### 1. User-to-Role Assignment Table
