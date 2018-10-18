@@ -183,6 +183,12 @@ Set the java system properties in tomcat with the target ldap server's coordinat
  JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=10389 -Dfortress.admin.user=uid=admin,ou=system -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=apacheds -Dfortress.enable.ldap.ssl=false -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
+##### Notes on JAVA_OPTS
+ * The prepacked .war pull down from maven uses java options to point to a particular Apache Fortress LDAP server.
+ * Be sure to replace these values with the correct values corresponding with your LDAP server.
+ * For example, $HOSTNAME should be replaced with localhost, if LDAP server is running locally.
+ * These values can also ride inside of the fortress.properties config file.  For more info: [README-CONFIG](https://github.com/apache/directory-fortress-core/blob/master/README-CONFIG.md)
+
 #### 3. Verify these settings match your target LDAP server.
 
 #### 4. Download the fortress rest war into tomcat/webapps folder:
