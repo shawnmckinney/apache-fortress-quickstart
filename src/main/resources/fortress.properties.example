@@ -1,0 +1,69 @@
+#
+#   Licensed to the Apache Software Foundation (ASF) under one
+#   or more contributor license agreements.  See the NOTICE file
+#   distributed with this work for additional information
+#   regarding copyright ownership.  The ASF licenses this file
+#   to you under the Apache License, Version 2.0 (the
+#   "License"); you may not use this file except in compliance
+#   with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing,
+#   software distributed under the License is distributed on an
+#   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#   KIND, either express or implied.  See the License for the
+#   specific language governing permissions and limitations
+#   under the License.
+#
+#
+
+# LDAP Server type.  Each LDAP server impl has different behavior on operations like password policies and audit.  If using a 3rd type of server that isn't formally supported, leave blank or type is other.
+# If ApacheDS server:
+#ldap.server.type=apacheds
+# Else if OpenLDAP server:
+ldap.server.type=openldap
+# Else leave blank:
+#ldap.server.type=other
+
+# Host name and port of LDAP DIT:
+host=localhost
+port=389
+
+# Set the credentials of service account.  Must have read/write privileges over the Fortress LDAP DIT:
+# If ApacheDS it will look something like this:
+#admin.user=uid=admin,ou=system
+# Else If OpenLDAP it will look something like this:
+#admin.user=cn=Manager,dc=example,dc=com
+# Used for read/write access to slapd access log suffix, for openldap audit support:
+log.admin.user=cn=Manager,cn=log
+log.admin.pw=secret
+
+# This is min/max settings for LDAP administrator pool connections that have read/write access to all nodes under suffix:
+min.admin.conn=1
+max.admin.conn=1
+
+# Used for SSL Connection to LDAP Server:
+#enable.ldap.ssl=true
+#enable.ldap.ssl.debug=true
+#trust.store=/fully/qualified/path/and/file/name/to/java/truststore
+#trust.store.password=changeit
+#trust.store.set.prop=true
+
+# This node contains fortress properties stored on behalf of connecting LDAP clients:
+config.realm=DEFAULT
+config.root=ou=Config,dc=example,dc=com
+
+# enable this to see trace statements when connection pool allocates new connections:
+debug.ldap.pool=false
+
+# Default for pool reconnect flag is false:
+enable.pool.reconnect=true
+
+ehcache.config.file=ehcache.xml
+
+# Boolean value. If true, requires rfc2307bis schema because posixUser and posixGroup must be auxiliary object classes to work with ftRls which is structural..
+rfc2307=true
+
+# ApacheDS stores its password policies objects here by default:
+#apacheds.pwpolicy.root=ou=passwordPolicies,ads-interceptorId=authenticationInterceptor,ou=interceptors,ads-directoryServiceId=default,ou=config

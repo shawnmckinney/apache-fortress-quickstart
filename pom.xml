@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <name>Apache Fortress Quickstart</name>
+    <description>Apache Fortress Quickstart introduces the rest impl</description>
+    <groupId>net.iamfortress</groupId>
+    <artifactId>apache-fortress-quickstart</artifactId>
+    <version>2.0.2</version>
+    <packaging>jar</packaging>
+
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/shawnmckinney/apache-fortress-quickstart</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>smckinney</id>
+            <name>Shawn McKinney</name>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <organization>symas.com</organization>
+            <timezone>-5</timezone>
+        </developer>
+    </developers>
+
+    <properties>
+        <fortress.version>2.0.2</fortress.version>
+        <title>${project.name} ${project.version}</title>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.directory.fortress</groupId>
+            <artifactId>fortress-core</artifactId>
+            <version>${fortress.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <!-- This task loads data into Fortress backend using XML scripts to drive its APIs -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <configuration>
+                            <target name="fortress-load"
+                                    if="load.file"
+                                    description="Loads fortress quickstart policy into ldap">
+                                <echo message="############### Run Fortress Quickstart Policy Load ###############"/>
+                                <java
+                                        classname="org.apache.tools.ant.launch.Launcher"
+                                        fork="true"
+                                        failonerror="true"
+                                        dir="${basedir}"
+                                        timeout="4000000"
+                                        taskname="startAnt">
+                                    <classpath>
+                                        <pathelement location="./src/main/resources"/>
+                                        <pathelement location="${org.apache.ant:ant-launcher:jar}"/>
+                                        <pathelement location="${org.apache.ant:ant:jar}"/>
+                                        <pathelement location="${org.apache.directory.fortress:fortress-core:jar}"/>
+                                        <pathelement location="${org.openldap:accelerator-api:jar}"/>
+                                        <pathelement location="${org.openldap:accelerator-impl:jar}"/>
+                                        <pathelement location="${log4j:log4j:jar}"/>
+                                        <pathelement location="${org.apache.directory.api:api-all:jar}"/>
+                                        <pathelement location="${org.apache.mina:mina-core:jar}"/>
+                                        <pathelement location="${org.jgrapht:jgrapht-core:jar}"/>
+                                        <pathelement location="${org.jasypt:jasypt:jar}"/>
+                                        <pathelement location="${commons-configuration:commons-configuration:jar}"/>
+                                        <pathelement location="${commons-lang:commons-lang:jar}"/>
+                                        <pathelement location="${commons-collections:commons-collections:jar}"/>
+                                        <pathelement location="${commons-logging:commons-logging:jar}"/>
+                                        <pathelement location="${commons-io:commons-io:jar}"/>
+                                        <pathelement location="${commons-pool:commons-pool:jar}"/>
+                                        <pathelement location="${net.sf.ehcache:ehcache-core:jar}"/>
+                                        <pathelement location="${org.slf4j:slf4j-api:jar}"/>
+                                        <pathelement location="${org.slf4j:slf4j-log4j12:jar}"/>
+                                        <pathelement location="${antlr:antlr:jar}"/>
+                                    </classpath>
+                                    <sysproperty key="version" value="${project.version}"/>
+                                    <sysproperty key="tenant" value="${tenant}"/>
+                                    <sysproperty key="fortress.admin.user" value="cn=manager,dc=example,dc=com"/>
+                                    <sysproperty key="fortress.admin.pw" value="secret"/>
+                                    <sysproperty key="fortress.ldap.server.type" value="openldap"/>
+                                    <sysproperty key="fortress.config.realm" value="DEFAULT"/>
+                                    <sysproperty key="fortress.config.root" value="ou=config,dc=example,dc=com"/>
+
+                                    <arg value="-buildfile"/>
+                                    <arg file="./${load.file}"/>
+                                    <!--<arg file="./src/main/resources/FortressRestServerPolicy.xml"/>-->
+                                </java>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
