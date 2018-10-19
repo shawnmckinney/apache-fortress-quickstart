@@ -4,8 +4,10 @@ Work-In-Progress
 
 # Overview of the apache-fortress-quickstart README
 
- * This document demonstrates how to install Apache Fortress Rest component to Apache Tomcat server and connect to a properly configured LDAP server.
- * It also shows how to run services using curl.
+ This sample shows how to interact with Apache Fortress APIs using REST via command-line invocations w/ curl. In so doing,
+   it shows how to install Apache Fortress Rest component into an Apache Tomcat server instance and connect to a properly configured LDAP server.
+
+ The samples load a fictional security policy that correspond with another fortress sample called the [rbac-abac-sample](https://github.com/shawnmckinney/rbac-abac-sample).
 
 -------------------------------------------------------------------------------
 ## Table of Contents
@@ -14,8 +16,9 @@ Work-In-Progress
  * SECTION 3. Prepare apache-fortress-quickstart package
  * SECTION 4. Configure Apache Tomcat and Deploy Apache Fortress Rest
  * SECTION 5. Test Apache Fortress Rest with Curl
- * SECTION 6. Understand the security policy
- * SECTION 7. Under the Hood (Learn how it works here)
+ * SECTION 6. Understand the security model of Apache Fortress Rest
+ * SECTION 7. Understand the security policy for RBAC-ABAC Sample
+ * SECTION 8. Under the Hood (Learn how it works here)
 
 -------------------------------------------------------------------------------
 ## SECTION I. Prerequisites
@@ -29,7 +32,7 @@ Work-In-Progress
 -------------------------------------------------------------------------------
 ## SECTION II. Prepare Tomcat for Java EE Security
 
-This sample web app uses Java EE security.
+Apache Fortress Rest uses Java EE security for basic authentication and coarse-grained authorization.
 
 #### 1. Download the fortress realm proxy jar into tomcat/lib folder:
 
@@ -38,8 +41,6 @@ This sample web app uses Java EE security.
   ```
 
  * Where `$TOMCAT_HOME` points to the execution env.
-
- Note: The realm proxy enables Tomcat container-managed security functions to call back to fortress.
 
 #### 2. Restart tomcat so it can pick up the new jar file on its system classpath.
 
@@ -204,7 +205,8 @@ Run the following curl commands from src/test/resources folder, where the reques
  ```
 
 ##### Sample request add role bank_users
- ```:
+
+ ```
  <FortRequest>
       <contextId>HOME</contextId>
       <entity xsi:type="role" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -243,6 +245,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  ```
 
 ##### Sample request will pull back all roles
+
  ```
  <FortRequest>
     <contextId>HOME</contextId>
@@ -250,7 +253,29 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-#### 4. Add User:
+
+#### 4. Add Dynamic Separation of Duty Policy
+
+ ```
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-enable-role-washers-constraint-locale.xml http://localhost:8080/fortress-rest-2.0.2/dsdAdd
+ ```
+
+##### Sample request prevents Tellers and Washers roles being activated together.
+
+ ```
+ <FortRequest>
+   <contextId>HOME</contextId>
+   <entity xsi:type="sdset" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+       <name>banksafe</name>
+       <description>User may only activate one of these roles</description>
+       <cardinality>2</cardinality>
+       <members>tellers</members>
+       <members>washers</members>
+   </entity>
+ </FortRequest>
+ ```
+
+#### 5. Add User:
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-user-curly.xml http://localhost:8080/fortress-rest-2.0.2/userAdd
@@ -273,7 +298,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-#### 5. Search Users:
+#### 6. Search Users:
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-search-user.xml http://localhost:8080/fortress-rest-2.0.2/userSearch
@@ -290,7 +315,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-#### 6. Assign Users to Roles:
+#### 7. Assign Users to Roles:
 
  ```
  # Curly:
@@ -319,7 +344,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-#### 7. Add User Role Constraint:
+#### 8. Add User Role Constraint:
 
  ```
  # Curly:
@@ -353,7 +378,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-#### 8. Test Add Permission Object
+#### 9. Test Add Permission Object
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-account.xml http://localhost:8080/fortress-rest-2.0.2/objAdd
@@ -377,7 +402,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-#### 9. Test Add Permission Operation
+#### 10. Test Add Permission Operation
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-account-deposit.xml http://localhost:8080/fortress-rest-2.0.2/permAdd
@@ -403,7 +428,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-#### 10. Test Grant Role to Permission
+#### 11. Test Grant Role to Permission
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-bankuser-perm-branch-login.xml http://localhost:8080/fortress-rest-2.0.2/roleGrant
@@ -430,7 +455,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-#### 11. Search Permissions:
+#### 12. Search Permissions:
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-search-perms.xml http://localhost:8080/fortress-rest-2.0.2/permSearch
@@ -448,7 +473,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-#### 12. Create Session
+#### 13. Create Session
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-create-session-curly.xml http://localhost:8080/fortress-rest-2.0.2/rbacCreateT
@@ -470,7 +495,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  </FortRequest>
  ```
 
-#### 13. Test Check Access
+#### 14. Test Check Access
 
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-check-access-curly-account-withdrawal.xml http://localhost:8080/fortress-rest-2.0.2/rbacAuthZ
@@ -480,9 +505,37 @@ Run the following curl commands from src/test/resources folder, where the reques
 
 
 -------------------------------------------------------------------------------
-## SECTION VI. Understand the security policy
+## SECTION VI. Understand the security model of Apache Fortress Rest
 
-App comprised of three pages, each has buttons and links that are guarded by permissions.  The permissions are granted to a particular user via their role activations.
+ * Apache Fortress Rest is a JAX-RS Web application that allows the Apache Fortress Core APIs to be called over an HTTP interface.
+ * It deploys inside of any compliant Java Servlet container although here we'll be using Apache Tomcat.
+
+### Apache Fortress Rest security model includes:
+
+### TLS
+
+Nothing special or unique going on here.  Refer to the documentation of your servlet container for how to enable.
+
+### Java EE security
+
+ * Apache Fortress Rest uses the Apache Fortress Realm to provide Java EE authentication, coarse-grained authorization mapping the users and roles back to a given LDAP server.
+ * The policy for Apache Fortress Rest is simple.  Any user with the **fortress-rest-user** role and correct credentials is allowed in.
+ * The Fortress Rest interface uses HTTP Basic Auth tokens to send the userid/password.
+
+### Apache CXF's **SimpleAuthorizingInterceptor**
+
+This enforcement mechanism maps roles to a given set of services.  The following table shows what roles map to which (sets of) services:
+
+| service type      | fortress-rest-super-user | fortress-rest-admin-user | fortress-rest-review-user | fortress-rest-access-user |
+| ----------------- | ------------------------ | ------------------------ | ------------------------- | ------------------------- |
+| Admin  Manager    | true                     | true                     | false                     | false
+| Review Manager    | true                     | false                    | true                      | false
+| Access Manager    | true                     | true                     | false                     | true
+
+-------------------------------------------------------------------------------
+## SECTION VII. Understand the security policy of the test samples
+
+The policy being implemented by these test services represent a sample Web app comprised of three pages, each has buttons and links that are guarded by permissions.  The permissions are granted to a particular user via their role activations.
 
 #### 1. User-to-Role Assignment Table
 
@@ -536,7 +589,7 @@ App comprised of three pages, each has buttons and links that are guarded by per
 
 
 -------------------------------------------------------------------------------
-## SECTION VII. Under the Hood
+## SECTION VIII. Under the Hood
 
  How does this work?  Have a look at some code...
 

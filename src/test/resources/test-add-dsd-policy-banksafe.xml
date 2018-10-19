@@ -1,0 +1,10 @@
+<FortRequest>
+  <contextId>HOME</contextId>
+  <entity xsi:type="sdset" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <name>banksafe</name>
+      <description>User may only activate one of these roles</description>
+      <cardinality>2</cardinality>
+      <members>tellers</members>
+      <members>washers</members>
+  </entity>
+</FortRequest>
