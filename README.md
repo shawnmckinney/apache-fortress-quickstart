@@ -254,7 +254,7 @@ Run the following curl commands from src/test/resources folder, where the reques
 #### 4. Add Dynamic Separation of Duty Policy
 
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-enable-role-washers-constraint-locale.xml http://localhost:8080/fortress-rest-2.0.2/dsdAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-dsd-policy-banksafe.xml http://localhost:8080/fortress-rest-2.0.2/dsdAdd
  ```
 
 ##### Sample request prevents Tellers and Washers roles being activated together.
