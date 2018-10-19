@@ -257,7 +257,7 @@ Run the following curl commands from src/test/resources folder, where the reques
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-dsd-policy-banksafe.xml http://localhost:8080/fortress-rest-2.0.2/dsdAdd
  ```
 
-##### Sample request prevents Tellers and Washers roles being activated together.
+##### Sample request prevent Teller and Washer roles from being activated together into a session.
 
  ```
  <FortRequest>
