@@ -1,0 +1,16 @@
+<FortRequest>
+    <contextId>HOME</contextId>
+    <entity xsi:type="role" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <name>tellers</name>
+    </entity>
+    <entity2 xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <userId>curly</userId>
+        <props>
+            <entry>
+                <key>locale</key>
+                <value>east</value>
+            </entry>
+        </props>
+    </entity2>
+    <isFlag>true</isFlag>
+</FortRequest>

@@ -493,11 +493,67 @@ Run the following curl commands from src/test/resources folder, where the reques
 
 #### 14. Test Check Access
 
+ Combines createSession and checkAccess into a single call.
+
+ Note: This service not available until 2.0.3 release.
+
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-check-access-curly-account-withdrawal.xml http://localhost:8080/fortress-rest-2.0.2/rbacAuthZ
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-check-access-curly-account-withdrawal.xml http://localhost:8080/fortress-rest-2.0.3/rbacCheck
  ```
 
 ##### Sample request to Check Access for curly
+
+ ```
+ <FortRequest>
+	<contextId>HOME</contextId>
+	<entity xsi:type="permission" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<objName>account</objName>
+		<opName>withdrawal</opName>
+	</entity>
+	<entity2 xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<userId>curly</userId>
+		<props>
+			<entry>
+				<key>locale</key>
+				<value>east</value>
+			</entry>
+		</props>
+	</entity2>
+	<isFlag>true</isFlag>
+ </FortRequest>
+ ```
+
+
+#### 15. Test Role Check
+
+ Combines createSession and roleCheck into a single call.
+
+ Note: This service not available until 2.0.3 release.
+
+ ```
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-role-check-curly-teller.xml http://localhost:8080/fortress-rest-2.0.3/rbacCheckRole
+ ```
+
+##### Sample request to Role Check for curly
+
+ ```
+ <FortRequest>
+    <contextId>HOME</contextId>
+    <entity xsi:type="role" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <name>tellers</name>
+    </entity>
+    <entity2 xsi:type="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <userId>curly</userId>
+        <props>
+            <entry>
+                <key>locale</key>
+                <value>east</value>
+            </entry>
+        </props>
+    </entity2>
+    <isFlag>true</isFlag>
+ </FortRequest>
+ ```
 
 
 -------------------------------------------------------------------------------
