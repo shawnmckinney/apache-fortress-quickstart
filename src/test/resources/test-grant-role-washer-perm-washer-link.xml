@@ -3,6 +3,6 @@
 	<entity xsi:type="permGrant" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 		<objName>WashersPage</objName>
 		<opName>link</opName>
-		<roleNm>colgate</roleNm>
+		<roleNm>washers</roleNm>
 	</entity>
 </FortRequest>
