@@ -1,6 +1,7 @@
-# apache-fortress-quickstart
+![Apache Fortress](images/ApacheFortressLogo_FINAL_SM.png "Apache Fortress")
 
-# Overview of the apache-fortress-quickstart README
+-------------------------------------------------------------------------------
+# Overview of the apache-fortress-quickstart
 
  * This sample shows how to interact with Apache Fortress APIs using REST via command-line invocations w/ curl.
  * It shows how to install Apache Fortress Rest component into an Apache Tomcat server instance and connect to a properly configured LDAP server.
