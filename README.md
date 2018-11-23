@@ -34,7 +34,7 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
 #### 1. Download the fortress realm proxy jar into tomcat/lib folder:
 
   ```bash
-  wget http://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-realm-proxy/2.0.2/fortress-realm-proxy-2.0.2.jar -P $TOMCAT_HOME/lib
+  wget http://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-realm-proxy/2.0.3/fortress-realm-proxy-2.0.3.jar -P $TOMCAT_HOME/lib
   ```
 
  * Where `$TOMCAT_HOME` points to the execution env.
@@ -179,26 +179,34 @@ Set the java system properties in tomcat with the target ldap server's coordinat
 #### 4. Download the fortress rest war into tomcat/webapps folder:
 
   ```
-  wget http://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-rest/2.0.2/fortress-rest-2.0.2.war -P $TOMCAT_HOME/webapps
+  wget http://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-rest/[VERSION]/fortress-rest-[VERSION].war -P $TOMCAT_HOME/webapps
   ```
 
-  where *TOMCAT_HOME* matches your target env.
+  * Where *TOMCAT_HOME* matches your target env and *[VERSION]* is latest Fortress Rest Component, as of today 2.0.3.
 
 ___________________________________________________________________________________
 ## SECTION V. Test Apache Fortress Rest with Curl
 
 ### Services are documented:
 
- * [Apache Fortress Service API Reference Guide](http://static.javadoc.io/org.apache.directory.fortress/fortress-rest/2.0.2/org/apache/directory/fortress/rest/FortressServiceImpl.html)
+ * [Apache Fortress Service API Reference Guide](http://static.javadoc.io/org.apache.directory.fortress/fortress-rest/2.0.3/org/apache/directory/fortress/rest/FortressServiceImpl.html)
 
-Run the following curl commands from src/test/resources folder, where the request xml files are located.  Use a password of 'password' for the tests.
+
+### Test Instructions
+
+ * Install curl on local machine.
+ * Run these curl commands from src/test/resources folder, where the request xml files are located (or path them in).
+ * Use service credentials userId = 'demouser4', password = 'password'.  , per what was loaded as policy on earlier step.
+ * You will be prompted to enter the password after the curl command is entered.  These credentials form an HTTP Basic Auth Header forwarded to server, validated by Apache Fortress Realm.
+ * Replace '[VERSION]' with current version of Fortress Rest component deployed, as of today, '2.0.3'.
+
 
 #### 1. Add Role:
 
- ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-bankuser.xml http://localhost:8080/fortress-rest-2.0.2/roleAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-teller.xml http://localhost:8080/fortress-rest-2.0.2/roleAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-washer.xml http://localhost:8080/fortress-rest-2.0.2/roleAdd
+ ```curl
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-bankuser.xml http://localhost:8080/fortress-rest-[VERSION]/roleAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-teller.xml http://localhost:8080/fortress-rest-[VERSION]/roleAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-washer.xml http://localhost:8080/fortress-rest-[VERSION]/roleAdd
  ```
 
 ##### Sample request add role bank_users
@@ -215,9 +223,9 @@ Run the following curl commands from src/test/resources folder, where the reques
 
 #### 2. Enable Role Constraint:
 
- ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-enable-role-tellers-constraint-locale.xml http://localhost:8080/fortress-rest-2.0.2/roleEnableConstraint
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-enable-role-washers-constraint-locale.xml http://localhost:8080/fortress-rest-2.0.2/roleEnableConstraint
+ ```curl
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-enable-role-tellers-constraint-locale.xml http://localhost:8080/fortress-rest-[VERSION]/roleEnableConstraint
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-enable-role-washers-constraint-locale.xml http://localhost:8080/fortress-rest-[VERSION]/roleEnableConstraint
  ```
 
 ##### Sample request to constrain role Tellers by locale:
@@ -238,7 +246,7 @@ Run the following curl commands from src/test/resources folder, where the reques
 #### 3. Search Role:
 
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-search-role.xml http://localhost:8080/fortress-rest-2.0.2/roleSearch
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-search-role.xml http://localhost:8080/fortress-rest-[VERSION]/roleSearch
  ```
 
 ##### Sample request will pull back all roles
@@ -254,7 +262,7 @@ Run the following curl commands from src/test/resources folder, where the reques
 #### 4. Add Dynamic Separation of Duty Policy
 
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-dsd-policy-banksafe.xml http://localhost:8080/fortress-rest-2.0.2/dsdAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-dsd-policy-banksafe.xml http://localhost:8080/fortress-rest-[VERSION]/dsdAdd
  ```
 
 ##### Sample request prevent Teller and Washer roles from being activated together into a session.
@@ -275,9 +283,9 @@ Run the following curl commands from src/test/resources folder, where the reques
 #### 5. Add User:
 
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-user-curly.xml http://localhost:8080/fortress-rest-2.0.2/userAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-user-moe.xml http://localhost:8080/fortress-rest-2.0.2/userAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-user-larry.xml http://localhost:8080/fortress-rest-2.0.2/userAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-user-curly.xml http://localhost:8080/fortress-rest-[VERSION]/userAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-user-moe.xml http://localhost:8080/fortress-rest-[VERSION]/userAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-user-larry.xml http://localhost:8080/fortress-rest-[VERSION]/userAdd
  ```
 
 ##### Sample request add Curly:
@@ -298,7 +306,7 @@ Run the following curl commands from src/test/resources folder, where the reques
 #### 6. Search Users:
 
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-search-user.xml http://localhost:8080/fortress-rest-2.0.2/userSearch
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-search-user.xml http://localhost:8080/fortress-rest-[VERSION]/userSearch
  ```
 
 ##### Sample request pull back all users
@@ -316,17 +324,17 @@ Run the following curl commands from src/test/resources folder, where the reques
 
  ```
  # Curly:
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-curly-bankuser.xml http://localhost:8080/fortress-rest-2.0.2/roleAsgn
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-curly-teller.xml http://localhost:8080/fortress-rest-2.0.2/roleAsgn
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-curly-washer.xml http://localhost:8080/fortress-rest-2.0.2/roleAsgn
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-curly-bankuser.xml http://localhost:8080/fortress-rest-[VERSION]/roleAsgn
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-curly-teller.xml http://localhost:8080/fortress-rest-[VERSION]/roleAsgn
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-curly-washer.xml http://localhost:8080/fortress-rest-[VERSION]/roleAsgn
  # Moe:
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-moe-bankuser.xml http://localhost:8080/fortress-rest-2.0.2/roleAsgn
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-moe-teller.xml http://localhost:8080/fortress-rest-2.0.2/roleAsgn
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-moe-washer.xml http://localhost:8080/fortress-rest-2.0.2/roleAsgn
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-moe-bankuser.xml http://localhost:8080/fortress-rest-[VERSION]/roleAsgn
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-moe-teller.xml http://localhost:8080/fortress-rest-[VERSION]/roleAsgn
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-moe-washer.xml http://localhost:8080/fortress-rest-[VERSION]/roleAsgn
  # Larry:
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-larry-bankuser.xml http://localhost:8080/fortress-rest-2.0.2/roleAsgn
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-larry-teller.xml http://localhost:8080/fortress-rest-2.0.2/roleAsgn
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-larry-washer.xml http://localhost:8080/fortress-rest-2.0.2/roleAsgn
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-larry-bankuser.xml http://localhost:8080/fortress-rest-[VERSION]/roleAsgn
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-larry-teller.xml http://localhost:8080/fortress-rest-[VERSION]/roleAsgn
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-assign-larry-washer.xml http://localhost:8080/fortress-rest-[VERSION]/roleAsgn
  ```
 
 ##### Sample request to assign curly to bank_users role
@@ -345,17 +353,17 @@ Run the following curl commands from src/test/resources folder, where the reques
 
  ```
  # Curly:
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-curly-teller-locale-east.xml http://localhost:8080/fortress-rest-2.0.2/addRoleConstraint
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-curly-washer-locale-north.xml http://localhost:8080/fortress-rest-2.0.2/addRoleConstraint
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-curly-washer-locale-south.xml http://localhost:8080/fortress-rest-2.0.2/addRoleConstraint
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-curly-teller-locale-east.xml http://localhost:8080/fortress-rest-[VERSION]/addRoleConstraint
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-curly-washer-locale-north.xml http://localhost:8080/fortress-rest-[VERSION]/addRoleConstraint
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-curly-washer-locale-south.xml http://localhost:8080/fortress-rest-[VERSION]/addRoleConstraint
  # Moe:
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-larry-teller-locale-south.xml http://localhost:8080/fortress-rest-2.0.2/addRoleConstraint
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-larry-washer-locale-east.xml http://localhost:8080/fortress-rest-2.0.2/addRoleConstraint
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-larry-washer-locale-north.xml http://localhost:8080/fortress-rest-2.0.2/addRoleConstraint
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-larry-teller-locale-south.xml http://localhost:8080/fortress-rest-[VERSION]/addRoleConstraint
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-larry-washer-locale-east.xml http://localhost:8080/fortress-rest-[VERSION]/addRoleConstraint
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-larry-washer-locale-north.xml http://localhost:8080/fortress-rest-[VERSION]/addRoleConstraint
  # Larry:
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-moe-teller-locale-north.xml http://localhost:8080/fortress-rest-2.0.2/addRoleConstraint
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-moe-washer-locale-east.xml http://localhost:8080/fortress-rest-2.0.2/addRoleConstraint
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-moe-washer-locale-south.xml http://localhost:8080/fortress-rest-2.0.2/addRoleConstraint
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-moe-teller-locale-north.xml http://localhost:8080/fortress-rest-[VERSION]/addRoleConstraint
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-moe-washer-locale-east.xml http://localhost:8080/fortress-rest-[VERSION]/addRoleConstraint
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-userrole-constraint-moe-washer-locale-south.xml http://localhost:8080/fortress-rest-[VERSION]/addRoleConstraint
  ```
 
 ##### Sample request to add user-role constraint
@@ -378,12 +386,12 @@ Run the following curl commands from src/test/resources folder, where the reques
 #### 9. Test Add Permission Object
 
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-account.xml http://localhost:8080/fortress-rest-2.0.2/objAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-branch.xml http://localhost:8080/fortress-rest-2.0.2/objAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-currency.xml http://localhost:8080/fortress-rest-2.0.2/objAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-home.xml http://localhost:8080/fortress-rest-2.0.2/objAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-teller.xml http://localhost:8080/fortress-rest-2.0.2/objAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-washer.xml http://localhost:8080/fortress-rest-2.0.2/objAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-account.xml http://localhost:8080/fortress-rest-[VERSION]/objAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-branch.xml http://localhost:8080/fortress-rest-[VERSION]/objAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-currency.xml http://localhost:8080/fortress-rest-[VERSION]/objAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-home.xml http://localhost:8080/fortress-rest-[VERSION]/objAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-teller.xml http://localhost:8080/fortress-rest-[VERSION]/objAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-object-washer.xml http://localhost:8080/fortress-rest-[VERSION]/objAdd
  ```
 
 ##### Sample request to add a permission object for account:
@@ -402,15 +410,15 @@ Run the following curl commands from src/test/resources folder, where the reques
 #### 10. Test Add Permission Operation
 
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-account-deposit.xml http://localhost:8080/fortress-rest-2.0.2/permAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-account-inquiry.xml http://localhost:8080/fortress-rest-2.0.2/permAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-account-withdrawal.xml http://localhost:8080/fortress-rest-2.0.2/permAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-branch-login.xml http://localhost:8080/fortress-rest-2.0.2/permAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-currency-dry.xml http://localhost:8080/fortress-rest-2.0.2/permAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-currency-rinse.xml http://localhost:8080/fortress-rest-2.0.2/permAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-currency-soak.xml http://localhost:8080/fortress-rest-2.0.2/permAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-teller-link.xml http://localhost:8080/fortress-rest-2.0.2/permAdd
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-washer-link.xml http://localhost:8080/fortress-rest-2.0.2/permAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-account-deposit.xml http://localhost:8080/fortress-rest-[VERSION]/permAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-account-inquiry.xml http://localhost:8080/fortress-rest-[VERSION]/permAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-account-withdrawal.xml http://localhost:8080/fortress-rest-[VERSION]/permAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-branch-login.xml http://localhost:8080/fortress-rest-[VERSION]/permAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-currency-dry.xml http://localhost:8080/fortress-rest-[VERSION]/permAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-currency-rinse.xml http://localhost:8080/fortress-rest-[VERSION]/permAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-currency-soak.xml http://localhost:8080/fortress-rest-[VERSION]/permAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-teller-link.xml http://localhost:8080/fortress-rest-[VERSION]/permAdd
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-perm-operation-washer-link.xml http://localhost:8080/fortress-rest-[VERSION]/permAdd
  ```
 
 ##### Sample request to add permission to login to branch:
@@ -428,15 +436,15 @@ Run the following curl commands from src/test/resources folder, where the reques
 #### 11. Test Grant Role to Permission
 
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-bankuser-perm-branch-login.xml http://localhost:8080/fortress-rest-2.0.2/roleGrant
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-teller-perm-account-deposit.xml http://localhost:8080/fortress-rest-2.0.2/roleGrant
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-teller-perm-account-inquiry.xml http://localhost:8080/fortress-rest-2.0.2/roleGrant
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-teller-perm-account-withdrawal.xml http://localhost:8080/fortress-rest-2.0.2/roleGrant
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-teller-perm-teller-link.xml http://localhost:8080/fortress-rest-2.0.2/roleGrant
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-washer-perm-currency-dry.xml http://localhost:8080/fortress-rest-2.0.2/roleGrant
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-washer-perm-currency-rinse.xml http://localhost:8080/fortress-rest-2.0.2/roleGrant
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-washer-perm-currency-soak.xml http://localhost:8080/fortress-rest-2.0.2/roleGrant
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-washer-perm-washer-link.xml http://localhost:8080/fortress-rest-2.0.2/roleGrant
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-bankuser-perm-branch-login.xml http://localhost:8080/fortress-rest-[VERSION]/roleGrant
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-teller-perm-account-deposit.xml http://localhost:8080/fortress-rest-[VERSION]/roleGrant
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-teller-perm-account-inquiry.xml http://localhost:8080/fortress-rest-[VERSION]/roleGrant
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-teller-perm-account-withdrawal.xml http://localhost:8080/fortress-rest-[VERSION]/roleGrant
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-teller-perm-teller-link.xml http://localhost:8080/fortress-rest-[VERSION]/roleGrant
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-washer-perm-currency-dry.xml http://localhost:8080/fortress-rest-[VERSION]/roleGrant
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-washer-perm-currency-rinse.xml http://localhost:8080/fortress-rest-[VERSION]/roleGrant
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-washer-perm-currency-soak.xml http://localhost:8080/fortress-rest-[VERSION]/roleGrant
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-grant-role-washer-perm-washer-link.xml http://localhost:8080/fortress-rest-[VERSION]/roleGrant
  ```
 
 ##### Sample request to grant bankusers to login to branch
@@ -455,7 +463,7 @@ Run the following curl commands from src/test/resources folder, where the reques
 #### 12. Search Permissions:
 
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-search-perms.xml http://localhost:8080/fortress-rest-2.0.2/permSearch
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-search-perms.xml http://localhost:8080/fortress-rest-[VERSION]/permSearch
  ```
 
 ##### Sample request to pull back all Permissions
@@ -473,9 +481,9 @@ Run the following curl commands from src/test/resources folder, where the reques
 #### 13. Create Session
 
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-create-session-curly.xml http://localhost:8080/fortress-rest-2.0.2/rbacCreateT
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-create-session-moe.xml http://localhost:8080/fortress-rest-2.0.2/rbacCreateT
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-create-session-larry.xml http://localhost:8080/fortress-rest-2.0.2/rbacCreateT
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-create-session-curly.xml http://localhost:8080/fortress-rest-[VERSION]/rbacCreateT
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-create-session-moe.xml http://localhost:8080/fortress-rest-[VERSION]/rbacCreateT
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-create-session-larry.xml http://localhost:8080/fortress-rest-[VERSION]/rbacCreateT
  ```
 
  * Note: The role Tellers will be activated in this example, Washers will not, due to role constraints.
@@ -496,10 +504,10 @@ Run the following curl commands from src/test/resources folder, where the reques
 
  Combines createSession and checkAccess into a single call.
 
- Note: This service not available until 2.0.3 release.
+ Note: This service not available until [VERSION] release.
 
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-check-access-curly-account-withdrawal.xml http://localhost:8080/fortress-rest-2.0.3/rbacCheck
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-check-access-curly-account-withdrawal.xml http://localhost:8080/fortress-rest-[VERSION]/rbacCheck
  ```
 
 ##### Sample request to Check Access for curly
@@ -529,10 +537,10 @@ Run the following curl commands from src/test/resources folder, where the reques
 
  Combines createSession and roleCheck into a single call.
 
- Note: This service not available until 2.0.3 release.
+ Note: This service not available until [VERSION] release.
 
  ```
- curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-role-check-curly-teller.xml http://localhost:8080/fortress-rest-2.0.3/rbacCheckRole
+ curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-role-check-curly-teller.xml http://localhost:8080/fortress-rest-[VERSION]/rbacCheckRole
  ```
 
 ##### Sample request to Role Check for curly
