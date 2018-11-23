@@ -198,7 +198,7 @@ ________________________________________________________________________________
  * Run these curl commands from src/test/resources folder, where the request xml files are located (or path them in).
  * Use service credentials userId = 'demouser4', password = 'password'.  , per what was loaded as policy on earlier step.
  * You will be prompted to enter the password after the curl command is entered.  These credentials form an HTTP Basic Auth Header forwarded to server, validated by Apache Fortress Realm.
- * Replace '[VERSION]' with current version of Fortress Rest component deployed, as of today, '2.0.3'.
+ * Replace *[VERSION]* with current version of Fortress Rest component deployed, as of today, *2.0.3*.
 
 
 #### 1. Add Role:
