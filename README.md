@@ -504,8 +504,6 @@ ________________________________________________________________________________
 
  Combines createSession and checkAccess into a single call.
 
- Note: This service not available until [VERSION] release.
-
  ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-check-access-curly-account-withdrawal.xml http://localhost:8080/fortress-rest-[VERSION]/rbacCheck
  ```
