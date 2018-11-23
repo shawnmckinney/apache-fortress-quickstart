@@ -34,10 +34,10 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
 #### 1. Download the fortress realm proxy jar into tomcat/lib folder:
 
   ```bash
-  wget http://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-realm-proxy/2.0.3/fortress-realm-proxy-2.0.3.jar -P $TOMCAT_HOME/lib
+  wget http://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-realm-proxy/[VERSION]/fortress-realm-proxy-[VERSION].jar -P $TOMCAT_HOME/lib
   ```
 
- * Where `$TOMCAT_HOME` points to the execution env.
+ * Where `$TOMCAT_HOME` points to the execution and '[VERSION]' is current version of Fortress Realm component, as of today, '2.0.3'.
 
 #### 2. Restart tomcat so it can pick up the new jar file on its system classpath.
 
