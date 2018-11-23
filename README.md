@@ -15,7 +15,7 @@
  * SECTION 4. Configure Apache Tomcat and Deploy Apache Fortress Rest
  * SECTION 5. Test Apache Fortress Rest with Curl
  * SECTION 6. Understand the security model of Apache Fortress Rest
- * SECTION 7. Understand the security policy for RBAC-ABAC Sample
+ * SECTION 7. Understand the security policy of the Test Samples
 
 -------------------------------------------------------------------------------
 ## SECTION I. Prerequisites
@@ -146,25 +146,25 @@ Set the java system properties in tomcat with the target ldap server's coordinat
 
  a. For OpenLDAP SSL:
 
- ```bash
+ ```
  JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=636 -Dfortress.admin.user=cn=manager,dc=example,dc=com -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=openldap -Dfortress.enable.ldap.ssl=true -Dfortress.trust.store=mytruststore -Dfortress.trust.store.password=changeit -Dfortress.trust.store.onclasspath=true -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
  b. For OpenLDAP non-SSL:
 
- ```bash
+ ```
  JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=389 -Dfortress.admin.user=cn=manager,dc=example,dc=com -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=openldap -Dfortress.enable.ldap.ssl=false -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
  c. For ApacheDS SSL:
 
- ```bash
+ ```
  JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=10636 -Dfortress.admin.user=uid=admin,ou=system -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=apacheds -Dfortress.enable.ldap.ssl=true -Dfortress.trust.store=mytruststore -Dfortress.trust.store.password=changeit -Dfortress.trust.store.onclasspath=true -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
  d. For ApacheDS non-SSL:
 
- ```bash
+ ```
  JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=10389 -Dfortress.admin.user=uid=admin,ou=system -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=apacheds -Dfortress.enable.ldap.ssl=false -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
@@ -203,7 +203,7 @@ ________________________________________________________________________________
 
 #### 1. Add Role:
 
- ```bash
+ ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-bankuser.xml http://localhost:8080/fortress-rest-[VERSION]/roleAdd
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-teller.xml http://localhost:8080/fortress-rest-[VERSION]/roleAdd
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-washer.xml http://localhost:8080/fortress-rest-[VERSION]/roleAdd
@@ -223,7 +223,7 @@ ________________________________________________________________________________
 
 #### 2. Enable Role Constraint:
 
- ```bash
+ ```
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-enable-role-tellers-constraint-locale.xml http://localhost:8080/fortress-rest-[VERSION]/roleEnableConstraint
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-enable-role-washers-constraint-locale.xml http://localhost:8080/fortress-rest-[VERSION]/roleEnableConstraint
  ```
@@ -594,9 +594,11 @@ This enforcement mechanism maps roles to a given set of services.  The following
 | Access Manager    | true                     | true                     | false                     | true
 
 -------------------------------------------------------------------------------
-## SECTION VII. Understand the security policy of the test samples
+## SECTION VII. Understand the security policy of the Test Samples
 
 The policy being implemented by these test services represent a sample Web app comprised of three pages, each has buttons and links that are guarded by permissions.  The permissions are granted to a particular user via their role activations.
+
+It's based on the [RBAC-ABAC Sammple](https://github.com/shawnmckinney/rbac-abac-sample) project.
 
 #### 1. User-to-Role Assignment Table
 
