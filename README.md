@@ -146,25 +146,25 @@ Set the java system properties in tomcat with the target ldap server's coordinat
 
  a. For OpenLDAP SSL:
 
- ```
+ ```bash
  JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=636 -Dfortress.admin.user=cn=manager,dc=example,dc=com -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=openldap -Dfortress.enable.ldap.ssl=true -Dfortress.trust.store=mytruststore -Dfortress.trust.store.password=changeit -Dfortress.trust.store.onclasspath=true -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
  b. For OpenLDAP non-SSL:
 
- ```
+ ```bash
  JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=389 -Dfortress.admin.user=cn=manager,dc=example,dc=com -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=openldap -Dfortress.enable.ldap.ssl=false -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
  c. For ApacheDS SSL:
 
- ```
+ ```bash
  JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=10636 -Dfortress.admin.user=uid=admin,ou=system -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=apacheds -Dfortress.enable.ldap.ssl=true -Dfortress.trust.store=mytruststore -Dfortress.trust.store.password=changeit -Dfortress.trust.store.onclasspath=true -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
  d. For ApacheDS non-SSL:
 
- ```
+ ```bash
  JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=10389 -Dfortress.admin.user=uid=admin,ou=system -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=apacheds -Dfortress.enable.ldap.ssl=false -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
@@ -178,7 +178,7 @@ Set the java system properties in tomcat with the target ldap server's coordinat
 
 #### 4. Download the fortress rest war into tomcat/webapps folder:
 
-  ```
+  ```bash
   wget http://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-rest/[VERSION]/fortress-rest-[VERSION].war -P $TOMCAT_HOME/webapps
   ```
 
@@ -203,7 +203,7 @@ ________________________________________________________________________________
 
 #### 1. Add Role:
 
- ```curl
+ ```bash
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-bankuser.xml http://localhost:8080/fortress-rest-[VERSION]/roleAdd
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-teller.xml http://localhost:8080/fortress-rest-[VERSION]/roleAdd
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-add-role-washer.xml http://localhost:8080/fortress-rest-[VERSION]/roleAdd
@@ -223,7 +223,7 @@ ________________________________________________________________________________
 
 #### 2. Enable Role Constraint:
 
- ```curl
+ ```bash
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-enable-role-tellers-constraint-locale.xml http://localhost:8080/fortress-rest-[VERSION]/roleEnableConstraint
  curl -X POST -u 'demouser4' -H 'Content-type: text/xml' -k -d @test-enable-role-washers-constraint-locale.xml http://localhost:8080/fortress-rest-[VERSION]/roleEnableConstraint
  ```
