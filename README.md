@@ -14,8 +14,8 @@
  * SECTION 3. Prepare apache-fortress-quickstart package
  * SECTION 4. Configure Apache Tomcat and Deploy Apache Fortress Rest
  * SECTION 5. Test Apache Fortress Rest with Curl
- * SECTION 6. Understand the security model of Apache Fortress Rest
- * SECTION 7. Understand the security policy of the Test Samples
+ * SECTION 6. Understand the Security Model of Apache Fortress Rest
+ * SECTION 7. Understand the Security Policy of the Test Samples
 
 -------------------------------------------------------------------------------
 ## SECTION I. Prerequisites
@@ -566,7 +566,7 @@ ________________________________________________________________________________
 
 
 -------------------------------------------------------------------------------
-## SECTION VI. Understand the security model of Apache Fortress Rest
+## SECTION VI. Understand the Security Model of Apache Fortress Rest
 
  * Apache Fortress Rest is a JAX-RS Web application that allows the Apache Fortress Core APIs to be called over an HTTP interface.
  * It deploys inside of any compliant Java Servlet container although here we'll be using Apache Tomcat.
@@ -594,11 +594,11 @@ This enforcement mechanism maps roles to a given set of services.  The following
 | Access Manager    | true                     | true                     | false                     | true
 
 -------------------------------------------------------------------------------
-## SECTION VII. Understand the security policy of the Test Samples
+## SECTION VII. Understand the Security Policy of the Test Samples
 
 The policy being implemented by these test services represent a sample Web app comprised of three pages, each has buttons and links that are guarded by permissions.  The permissions are granted to a particular user via their role activations.
 
-It's based on the [RBAC-ABAC Sammple](https://github.com/shawnmckinney/rbac-abac-sample) project.
+It's based on the [RBAC-ABAC Sample](https://github.com/shawnmckinney/rbac-abac-sample) project.
 
 #### 1. User-to-Role Assignment Table
 
