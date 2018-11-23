@@ -37,7 +37,7 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
   wget http://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-realm-proxy/[VERSION]/fortress-realm-proxy-[VERSION].jar -P $TOMCAT_HOME/lib
   ```
 
- * Where `$TOMCAT_HOME` points to the execution and '[VERSION]' is current version of Fortress Realm component, as of today, '2.0.3'.
+ * Where *$TOMCAT_HOME* points to the execution and *[VERSION]* is current version of Fortress Realm component, as of today, *2.0.3*.
 
 #### 2. Restart tomcat so it can pick up the new jar file on its system classpath.
 
@@ -133,7 +133,7 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
   ```
 
  Build Notes:
- * `-Dload.file` above points to [FortressRestServerPolicy](src/main/resources/FortressRestServerPolicy.xml) data into ldap.
+ * `-Dload.file` loads this file's data, [FortressRestServerPolicy](src/main/resources/FortressRestServerPolicy.xml), into ldap.
 
 ___________________________________________________________________________________
 ## SECTION IV. Configure Apache Tomcat and Deploy Apache Fortress Rest
@@ -182,7 +182,7 @@ Set the java system properties in tomcat with the target ldap server's coordinat
   wget http://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-rest/[VERSION]/fortress-rest-[VERSION].war -P $TOMCAT_HOME/webapps
   ```
 
-  * Where *TOMCAT_HOME* matches your target env and *[VERSION]* is latest Fortress Rest Component, as of today 2.0.3.
+  * Where *TOMCAT_HOME* matches your target env and *[VERSION]* is latest Fortress Rest Component, as of today *2.0.3*.
 
 ___________________________________________________________________________________
 ## SECTION V. Test Apache Fortress Rest with Curl
