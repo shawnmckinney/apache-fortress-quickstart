@@ -129,11 +129,12 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
 #### 5. Load security policy and configuration data into LDAP for Quickstart testing:
 
   ```maven
- mvn install -Dload.file=./src/main/resources/FortressRestServerPolicy.xml
+ mvn install -Dload.file=./src/main/resources/FortressRestServerPolicy.xml -Dtenant=HOME
   ```
 
  Build Notes:
  * `-Dload.file` loads this file's data, [FortressRestServerPolicy](src/main/resources/FortressRestServerPolicy.xml), into ldap.
+ * '-Dtenenat' specifies the tenant being processed, i.e. subtree being processed.
 
 ___________________________________________________________________________________
 ## SECTION IV. Configure Apache Tomcat and Deploy Apache Fortress Rest
