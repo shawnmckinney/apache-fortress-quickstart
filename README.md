@@ -130,7 +130,7 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
  host=localhost
 
  # OpenLDAP defaults to this:
- port=389
+ port=32768
 
  # These credentials are used for read/write access to all nodes under suffix:
  admin.user=cn=Manager,dc=example,dc=com
@@ -149,12 +149,15 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
  host=localhost
 
  # ApacheDS defaults to this:
- port=10389
+ port=32768
 
  # These credentials are used for read/write access to all nodes under suffix:
  admin.user=uid=admin,ou=system
  admin.pw=secret
  ```
+
+ * These values will work with the defaults, set within the Docker images.  You may need to change the port, to match what's currently being used.
+ * If pointing to an existing LDAP server impl, change the coordinates accordingly.
 
 #### 4. Verify the java and maven home env variables are set.
 
@@ -194,20 +197,18 @@ Set the java system properties in tomcat with the target ldap server's coordinat
  a. For OpenLDAP:
 
  ```
- JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=389 -Dfortress.admin.user=cn=manager,dc=example,dc=com -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=openldap -Dfortress.enable.ldap.ssl=false -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
+ JAVA_OPTS="-Dfortress.host=localhost -Dfortress.port=32768 -Dfortress.admin.user=cn=manager,dc=example,dc=com -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=openldap -Dfortress.enable.ldap.ssl=false -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
  b. For ApacheDS:
 
  ```
- JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=10389 -Dfortress.admin.user=uid=admin,ou=system -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=apacheds -Dfortress.enable.ldap.ssl=false -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
+ JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=32768 -Dfortress.admin.user=uid=admin,ou=system -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=apacheds -Dfortress.enable.ldap.ssl=false -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
 ##### Notes on JAVA_OPTS
  * The prepacked .war pull down from maven uses java options to point to a particular Apache Fortress LDAP server.
- * Be sure to replace these values with the correct values corresponding with your LDAP server.
- * For example, $HOSTNAME should be replaced with localhost, if LDAP server is running locally.
- * These values can also ride inside of the fortress.properties config file.  For more info: [README-CONFIG](https://github.com/apache/directory-fortress-core/blob/master/README-CONFIG.md)
+ * These values will work with the defaults, set within the Docker images.  You may need to change the port, to match what's currently being used.
 
 #### 3. Verify these settings match your target LDAP server.
 
