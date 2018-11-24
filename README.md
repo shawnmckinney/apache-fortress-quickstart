@@ -21,10 +21,10 @@
 -------------------------------------------------------------------------------
 ## Prerequisites
 1. Java 8
-2. Apache Maven 3++
-3. Apache Tomcat 7++
-4. Docker Installed
-5. Curl Installed, to invoke the sample services.
+2. Apache Maven 3++, to run the fortress load utility, to bootstrap server data.
+3. Apache Tomcat 7++, to host the services.
+4. Docker, to host the LDAP server.
+5. Curl, to invoke/test fortress.
 
 -------------------------------------------------------------------------------
 ## SECTION 1. Prepare an LDAP Server
