@@ -92,15 +92,8 @@
                                     </classpath>
                                     <sysproperty key="version" value="${project.version}"/>
                                     <sysproperty key="tenant" value="${tenant}"/>
-                                    <sysproperty key="fortress.admin.user" value="cn=manager,dc=example,dc=com"/>
-                                    <sysproperty key="fortress.admin.pw" value="secret"/>
-                                    <sysproperty key="fortress.ldap.server.type" value="openldap"/>
-                                    <sysproperty key="fortress.config.realm" value="DEFAULT"/>
-                                    <sysproperty key="fortress.config.root" value="ou=config,dc=example,dc=com"/>
-
                                     <arg value="-buildfile"/>
                                     <arg file="./${load.file}"/>
-                                    <!--<arg file="./src/main/resources/FortressRestServerPolicy.xml"/>-->
                                 </java>
                             </target>
                         </configuration>
