@@ -9,7 +9,8 @@
 
 -------------------------------------------------------------------------------
 ## Table of Contents
- * SECTION 1. Prerequisites
+ * Prerequisites
+## SECTION I. Prepare an LDAP Server
  * SECTION 2. Prepare Tomcat for Java EE Security
  * SECTION 3. Prepare apache-fortress-quickstart package
  * SECTION 4. Configure Apache Tomcat and Deploy Apache Fortress Rest
@@ -18,13 +19,50 @@
  * SECTION 7. Understand the Security Policy of the Test Samples
 
 -------------------------------------------------------------------------------
-## SECTION I. Prerequisites
+## Prerequisites
 1. Java 8
 2. Apache Maven 3++
 3. Apache Tomcat 7++
-4. Basic LDAP server setup by completing either Quickstart
-    * [OpenLDAP & Fortress QUICKSTART on DOCKER](https://github.com/apache/directory-fortress-core/blob/master/README-QUICKSTART-DOCKER-SLAPD.md)
-    * [APACHEDS & Fortress QUICKSTART on DOCKER](https://github.com/apache/directory-fortress-core/blob/master/README-QUICKSTART-DOCKER-APACHEDS.md)
+4. Docker Installed
+5. Curl Installed, to invoke the sample services.
+
+-------------------------------------------------------------------------------
+## SECTION I. Prepare an LDAP Server
+
+ You may use the ApacheFortress Docker images for either OpenLDAP or ApacheDS:
+
+ Option A: Pull the OpenLDAP prebuilt image:
+
+ ```
+ docker pull apachedirectory/openldap-for-apache-fortress-tests
+ ```
+
+ Run the OpenLDAP docker container:
+
+ ```
+ CONTAINER_ID=$(docker run -d -P apachedirectory/openldap-for-apache-fortress-tests)
+ CONTAINER_PORT=$(docker inspect --format='{{(index (index .NetworkSettings.Ports "389/tcp") 0).HostPort}}' $CONTAINER_ID)
+ echo $CONTAINER_PORT
+ ```
+
+ -- Or --
+
+ Option B: Pull the ApacheDS prebuilt image:
+
+ ```
+ docker pull apachedirectory/apacheds-for-apache-fortress-tests
+ ```
+
+ Run the ApacheDS docker container:
+
+ ```
+ CONTAINER_ID=$(docker run -d -P apachedirectory/apacheds-for-apache-fortress-tests)
+ CONTAINER_PORT=$(docker inspect --format='{{(index (index .NetworkSettings.Ports "10389/tcp") 0).HostPort}}' $CONTAINER_ID)
+ echo $CONTAINER_PORT
+ ```
+
+ *note: make note of the port as it's needed later
+ *depending on your docker setup may need to run as root or sudo priv's.
 
 -------------------------------------------------------------------------------
 ## SECTION II. Prepare Tomcat for Java EE Security
@@ -82,26 +120,7 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
 
  Pick either Apache Directory or OpenLDAP server:
 
- c. Prepare fortress for ApacheDS usage:
-
- ```properties
- # This param tells fortress what type of ldap server in use:
- ldap.server.type=apacheds
-
- # Use value from [Set Hostname Entry]:
- host=localhost
-
- # ApacheDS defaults to this:
- port=10389
-
- # These credentials are used for read/write access to all nodes under suffix:
- admin.user=uid=admin,ou=system
- admin.pw=secret
- ```
-
- -- Or --
-
- d. Prepare fortress for OpenLDAP usage:
+ c. Prepare fortress for OpenLDAP usage:
 
  ```properties
  # This param tells fortress what type of ldap server in use:
@@ -115,6 +134,25 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
 
  # These credentials are used for read/write access to all nodes under suffix:
  admin.user=cn=Manager,dc=example,dc=com
+ admin.pw=secret
+ ```
+
+  -- Or --
+
+ d. Prepare fortress for ApacheDS usage:
+
+ ```properties
+ # This param tells fortress what type of ldap server in use:
+ ldap.server.type=apacheds
+
+ # Use value from [Set Hostname Entry]:
+ host=localhost
+
+ # ApacheDS defaults to this:
+ port=10389
+
+ # These credentials are used for read/write access to all nodes under suffix:
+ admin.user=uid=admin,ou=system
  admin.pw=secret
  ```
 
@@ -153,25 +191,13 @@ Set the java system properties in tomcat with the target ldap server's coordinat
 
 #### 2. Set the java opts
 
- a. For OpenLDAP SSL:
-
- ```
- JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=636 -Dfortress.admin.user=cn=manager,dc=example,dc=com -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=openldap -Dfortress.enable.ldap.ssl=true -Dfortress.trust.store=mytruststore -Dfortress.trust.store.password=changeit -Dfortress.trust.store.onclasspath=true -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
- ```
-
- b. For OpenLDAP non-SSL:
+ a. For OpenLDAP:
 
  ```
  JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=389 -Dfortress.admin.user=cn=manager,dc=example,dc=com -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=openldap -Dfortress.enable.ldap.ssl=false -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
  ```
 
- c. For ApacheDS SSL:
-
- ```
- JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=10636 -Dfortress.admin.user=uid=admin,ou=system -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=apacheds -Dfortress.enable.ldap.ssl=true -Dfortress.trust.store=mytruststore -Dfortress.trust.store.password=changeit -Dfortress.trust.store.onclasspath=true -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
- ```
-
- d. For ApacheDS non-SSL:
+ b. For ApacheDS:
 
  ```
  JAVA_OPTS="-Dfortress.host=$HOSTNAME -Dfortress.port=10389 -Dfortress.admin.user=uid=admin,ou=system -Dfortress.admin.pw='secret' -Dfortress.min.admin.conn=1 -Dfortress.max.admin.conn=10 -Dfortress.ldap.server.type=apacheds -Dfortress.enable.ldap.ssl=false -Dfortress.config.realm=DEFAULT -Dfortress.config.root=ou=config,dc=example,dc=com"
