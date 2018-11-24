@@ -76,9 +76,7 @@
                 <config props="group.protocol:configProtocol"/>
                 <config props="group.properties:configParameter"/>
                 <config props="role.occupants:${role.occupants}"/>
-                <config props="rfc2307:true"/>
-                <config props="gidNumber:5000"/>
-                <config props="uidNumber:1000"/>
+                <config props="rfc2307:false"/>
 
                 <config props="attr.delimiter:$"/>
                 <config props="field.length:130"/>
