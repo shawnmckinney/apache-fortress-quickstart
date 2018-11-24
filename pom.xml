@@ -7,7 +7,7 @@
     <description>Apache Fortress Quickstart introduces the rest impl</description>
     <groupId>net.iamfortress</groupId>
     <artifactId>apache-fortress-quickstart</artifactId>
-    <version>2.0.2</version>
+    <version>2.0.3</version>
     <packaging>jar</packaging>
 
     <licenses>
@@ -91,7 +91,7 @@
                                         <pathelement location="${antlr:antlr:jar}"/>
                                     </classpath>
                                     <sysproperty key="version" value="${project.version}"/>
-                                    <sysproperty key="tenant" value="${tenant}"/>
+                                    <sysproperty key="tenant" value="${tenant}" />
                                     <arg value="-buildfile"/>
                                     <arg file="./${load.file}"/>
                                 </java>
