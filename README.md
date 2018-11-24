@@ -128,15 +128,21 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
 
 #### 5. Load security policy and configuration data into LDAP for Quickstart testing:
 
- The Java System Property *tenant* will be *HOME*, unless otherwise pointing to another tenant's data.
+ a. Fortress Bootstrap creates the Directory Information Tree (DIT) structure and adds configuration parameters:
 
   ```maven
- mvn install -Dload.file=./src/main/resources/FortressRestServerPolicy.xml -Dtenant=HOME
+ mvn install -Dload.file=./src/main/resources/FortressBootstrap.xml
+  ```
+
+ b. The Fortress Rest Server Policy sets up a service account to have access to Apache Fortress Rest component:
+
+  ```maven
+ mvn install -Dload.file=./src/main/resources/FortressRestServerPolicy.xml
   ```
 
  Build Notes:
  * `-Dload.file` loads this file's data, [FortressRestServerPolicy](src/main/resources/FortressRestServerPolicy.xml), into ldap.
- * '-Dtenenat' specifies the tenant (subtree) being processed.
+ * `-Dtenenat` can be used to specifies a tenant (subtree) being processed.
 
 ___________________________________________________________________________________
 ## SECTION IV. Configure Apache Tomcat and Deploy Apache Fortress Rest
@@ -199,10 +205,16 @@ ________________________________________________________________________________
 
  * Install curl on local machine.
  * Run these curl commands from src/test/resources folder, where the request xml files are located (or path them in).
- * Use service credentials userId = 'demouser4', password = 'password'.  , per what was loaded as policy on earlier step.
+ * Use service credentials userId = 'adminuser', password = '$3cret'.  , per what was loaded as policy on earlier step.
  * You will be prompted to enter the password after the curl command is entered.  These credentials form an HTTP Basic Auth Header forwarded to server, validated by Apache Fortress Realm.
  * Replace *[VERSION]* with current version of Fortress Rest component deployed, as of today, *2.0.3*.
-
+ * To target a particular tenant, or subtree, pass via the contextId, for example, specify tneant of `Client123`:
+ ```
+ <FortRequest>
+    <contextId>Client123</contextId>
+    ...
+ </FortRequest>
+ ```
 
 #### 1. Add Role:
 
