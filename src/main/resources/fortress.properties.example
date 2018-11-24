@@ -34,7 +34,9 @@ port=389
 # If ApacheDS it will look something like this:
 #admin.user=uid=admin,ou=system
 # Else If OpenLDAP it will look something like this:
-#admin.user=cn=Manager,dc=example,dc=com
+admin.user=cn=manager,dc=example,dc=com
+admin.pw=secret
+
 # Used for read/write access to slapd access log suffix, for openldap audit support:
 log.admin.user=cn=Manager,cn=log
 log.admin.pw=secret
