@@ -10,7 +10,7 @@
 -------------------------------------------------------------------------------
 ## Table of Contents
  * Prerequisites
-## SECTION I. Prepare an LDAP Server
+ * SECTION 1. Prepare an LDAP Server
  * SECTION 2. Prepare Tomcat for Java EE Security
  * SECTION 3. Prepare apache-fortress-quickstart package
  * SECTION 4. Configure Apache Tomcat and Deploy Apache Fortress Rest
@@ -27,7 +27,7 @@
 5. Curl Installed, to invoke the sample services.
 
 -------------------------------------------------------------------------------
-## SECTION I. Prepare an LDAP Server
+## SECTION 1. Prepare an LDAP Server
 
  You may use the ApacheFortress Docker images for either OpenLDAP or ApacheDS:
 
@@ -65,7 +65,7 @@
  *depending on your docker setup may need to run as root or sudo priv's.
 
 -------------------------------------------------------------------------------
-## SECTION II. Prepare Tomcat for Java EE Security
+## SECTION 2. Prepare Tomcat for Java EE Security
 
 Apache Fortress Rest uses Java EE security for basic authentication and coarse-grained authorization.
 
@@ -80,7 +80,7 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
 #### 2. Restart tomcat so it can pick up the new jar file on its system classpath.
 
 -------------------------------------------------------------------------------
-## SECTION III. Prepare apache-fortress-quickstart package
+## SECTION 3. Prepare apache-fortress-quickstart package
 
 #### 1. Stage the project.
 
@@ -183,7 +183,7 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
  * `-Dtenenat` can be used to specifies a tenant (subtree) being processed.
 
 ___________________________________________________________________________________
-## SECTION IV. Configure Apache Tomcat and Deploy Apache Fortress Rest
+## SECTION 4. Configure Apache Tomcat and Deploy Apache Fortress Rest
 
 Set the java system properties in tomcat with the target ldap server's coordinates.
 
@@ -220,7 +220,7 @@ Set the java system properties in tomcat with the target ldap server's coordinat
   * Where *TOMCAT_HOME* matches your target env and *[VERSION]* is latest Fortress Rest Component, as of today *2.0.3*.
 
 ___________________________________________________________________________________
-## SECTION V. Test Apache Fortress Rest with Curl
+## SECTION 5. Test Apache Fortress Rest with Curl
 
 ### Services are documented:
 
@@ -605,7 +605,7 @@ ________________________________________________________________________________
 
 
 -------------------------------------------------------------------------------
-## SECTION VI. Understand the Security Model of Apache Fortress Rest
+## SECTION 6. Understand the Security Model of Apache Fortress Rest
 
  * Apache Fortress Rest is a JAX-RS Web application that allows the Apache Fortress Core APIs to be called over an HTTP interface.
  * It deploys inside of any compliant Java Servlet container although here we'll be using Apache Tomcat.
@@ -633,7 +633,7 @@ This enforcement mechanism maps roles to a given set of services.  The following
 | Access Manager    | true                     | true                     | false                     | true
 
 -------------------------------------------------------------------------------
-## SECTION VII. Understand the Security Policy of the Test Samples
+## SECTION 7. Understand the Security Policy of the Test Samples
 
 The policy being implemented by these test services represent a sample Web app comprised of three pages, each has buttons and links that are guarded by permissions.  The permissions are granted to a particular user via their role activations.
 
