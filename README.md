@@ -130,7 +130,7 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
  host=localhost
 
  # OpenLDAP defaults to this:
- port=32768
+ port=389
 
  # These credentials are used for read/write access to all nodes under suffix:
  admin.user=cn=Manager,dc=example,dc=com
