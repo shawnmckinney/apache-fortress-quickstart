@@ -129,8 +129,10 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
  # Use value from [Set Hostname Entry]:
  host=localhost
 
- # OpenLDAP defaults to this:
- port=389
+ # OpenLDAP defaults to this, natively:
+ # port=389
+ # OpenLDAP in Docker defaults to this:
+ port=32768
 
  # These credentials are used for read/write access to all nodes under suffix:
  admin.user=cn=Manager,dc=example,dc=com
@@ -148,7 +150,7 @@ Apache Fortress Rest uses Java EE security for basic authentication and coarse-g
  # Use value from [Set Hostname Entry]:
  host=localhost
 
- # ApacheDS defaults to this:
+ # ApacheDS in Docker defaults to this:
  port=32768
 
  # These credentials are used for read/write access to all nodes under suffix:
