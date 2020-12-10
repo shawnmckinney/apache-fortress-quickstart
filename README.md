@@ -3,8 +3,8 @@
 -------------------------------------------------------------------------------
 # Overview of the apache-fortress-quickstart
 
- * This sample shows how to interact with Apache Fortress APIs using REST via command-line invocations w/ curl.
- * It shows how to install Apache Fortress Rest component into an Apache Tomcat server instance and connect to a properly configured LDAP server.
+ * This sample shows how to invoke Apache Fortress APIs using REST via command-line invocations w/ curl.
+ * It also shows how to install Apache Fortress Rest component into an Apache Tomcat server instance and connect to a properly configured LDAP server.
  * The samples load a fictional security policy that correspond with another fortress sample called the [rbac-abac-sample](https://github.com/shawnmckinney/rbac-abac-sample).
 
 -------------------------------------------------------------------------------
