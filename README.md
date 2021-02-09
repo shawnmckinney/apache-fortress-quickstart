@@ -209,6 +209,7 @@ Set the java system properties in tomcat with the target ldap server's coordinat
 ##### Notes on JAVA_OPTS
  * The prepacked .war pull down from maven uses java options to point to a particular Apache Fortress LDAP server.
  * These values will work with the defaults, set within the Docker images.  You may need to change the port, to match what's currently being used.
+ * SECTION 4 Fortress Configuration Overrides contains an external property listing: [README-CONFIG](https://github.com/apache/directory-fortress-core/blob/master/README-CONFIG.md)
 
 #### 3. Verify these settings match your target LDAP server.
 
