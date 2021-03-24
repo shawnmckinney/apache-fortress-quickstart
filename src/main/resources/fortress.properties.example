@@ -28,7 +28,7 @@ ldap.server.type=openldap
 
 # Host name and port of LDAP DIT:
 host=localhost
-port=389
+port=32768
 
 # Set the credentials of service account.  Must have read/write privileges over the Fortress LDAP DIT:
 # If ApacheDS it will look something like this:
