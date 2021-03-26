@@ -77,28 +77,6 @@ semodule -i my-tomcat.pp
 service tomcat restart
 ```
 
-You 
-11. Test
-
-a. cd to test folder
-
-```bash
-cd /usr/share/fortress/src/test/resources
-```
-
-b. sample service invocations (more tests in the fortress quickstart project
-
-```bash
-curl -X POST -u 'adminuser' -H 'Content-type: text/xml' -k -d @test-add-role-bankuser.xml http://localhost:8080/fortress-rest-2.0.5/roleAdd
-curl -X POST -u 'adminuser' -H 'Content-type: text/xml' -k -d @test-search-role.xml http://localhost:8080/fortress-rest-2.0.5/roleSearch
-```
-
-c. enter password ="$3cret" at the prompt:
-
-```bash
-Enter host password for user 'adminuser':
-```
-
 ## Apendix: Troubleshooting
 
 a. selinux problem

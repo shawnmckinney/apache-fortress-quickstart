@@ -18,7 +18,7 @@ ________________________________________________________________________________
 
 * Install curl on local machine.
 * Run these curl commands from src/test/resources folder, where the request xml files are located (or path them in).
-* Use service credentials userId = 'adminuser', password = '$3cret'.  , per what was loaded as policy on earlier step.
+* Use service credentials userId = 'adminuser', password = '$3cret'
 * You will be prompted to enter the password after the curl command is entered.  These credentials form an HTTP Basic Auth Header forwarded to server, validated by Apache Fortress Realm.
 * Replace *[VERSION]* with current version of Fortress Rest component deployed, as of today, *2.0.3*.
 * To target a particular tenant, or subtree, pass via the contextId, for example, specify tneant of `Client123`:
