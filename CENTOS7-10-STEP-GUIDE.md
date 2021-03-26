@@ -46,42 +46,62 @@ echo "JAVA_OPTS=\"-Dfortress.host=localhost -Dfortress.port=32768 -Dfortress.adm
 6. Clone Fortress Quickstart:
 
 ```bash
-git clone https://github.com/shawnmckinney/apache-fortress-quickstart.git /usr/share/fortress
+git clone https://github.com/shawnmckinney/apache-fortress-quickstart.git /tmp/fortress
 ```
 
 7. Load the LDAP Directory with Bootstrap Data:
 
 ```bash
-cd /usr/share/fortress
-cp src/main/resources/fortress.properties.example src/main/resources/fortress.properties
-mvn install -Dload.file=./src/main/resources/FortressBootstrap.xml
-mvn install -Dload.file=./src/main/resources/FortressRestServerPolicy.xml
+cp /tmp/fortress/src/main/resources/fortress.properties.example /tmp/fortress/src/main/resources/fortress.properties
+mvn -f /tmp/fortress/pom.xml install -Dload.file=src/main/resources/FortressBootstrap.xml
+mvn -f /tmp/fortress/pom.xml install -Dload.file=src/main/resources/FortressRestServerPolicy.xml
 ```
 
-8. Start Tomcat:
+8. Add Tomcat SELinux Policy, allow access to LDAP:
+
+```bash
+echo -e "module ft-tomcat 1.0;\n\
+require {\n\
+    type ephemeral_port_t;\n\
+    type tomcat_t;\n\
+    class tcp_socket name_connect;\n\
+}\n\
+allow tomcat_t ephemeral_port_t:tcp_socket name_connect;" >> /tmp/fortress/ft-tomcat.te
+checkmodule -M -m -o /tmp/fortress/ft-tomcat.mod /tmp/fortress/ft-tomcat.te
+semodule_package -o /tmp/fortress/ft-tomcat.pp -m /tmp/fortress/ft-tomcat.mod
+semodule -i /tmp/fortress/ft-tomcat.pp
+```
+
+9. Start Tomcat:
 
 ```bash
 service tomcat start
 ```
+10. Test Services:
 
-9. Add SELinux Permissions:
-
-```bash
-ausearch -ui tomcat --raw | audit2allow -M my-tomcat
-semodule -i my-tomcat.pp
-```
-
-10. Restart Tomcat:
+a. Invoke with curl:
 
 ```bash
-service tomcat restart
+curl -X POST -u 'adminuser' -H 'Content-type: text/xml' -k -d @/tmp/fortress/src/test/resources/test-add-role-bankuser.xml http://localhost:8080/fortress-rest-2.0.5/roleAdd
+curl -X POST -u 'adminuser' -H 'Content-type: text/xml' -k -d @/tmp/fortress/src/test/resources/test-search-role.xml http://localhost:8080/fortress-rest-2.0.5/roleSearch
 ```
+
+b. enter password ="$3cret" at the prompt:
+
+```bash
+Enter host password for user 'adminuser':
+```
+
+c. More examples here: [README-TESTING](README-TESTING.md)
 
 ## Apendix: Troubleshooting
 
-a. selinux problem
+### SELinux
 
-i. if there's not a response returning via the curl command it's likely an selinux permission violation.  You can check its log (for tomcat):
+if there's not a response returning via the curl command it could be an SELinux permission violation.
+A policy was created and loaded during setup, ...
+
+i. You can check its log (for tomcat):
 
 ```bash
 ausearch -ui tomcat
@@ -99,8 +119,12 @@ type=AVC msg=audit(1616694629.518:14124): avc:  denied  { name_connect } for  pi
 t permissive=0
 ```
 
+#### Discussion
+
 Here we can see that selinux is blocking the tomcat process from accessing an ldap port, 32768 which happens to be the default port for a directory server when running inside a docker container.  
 If you used the default config supplied by the quickstart, the port will be set to 32768.  Any port over 327, which is an ephemeral_port_t.
+
+We applied an SELinux policy to Tomcat to access LDAP in the setup so this shouldn't happen.  It it does you can work around it by performing the following and opening an issue on this project.
 
 We can work around this by:
 
@@ -110,9 +134,9 @@ semodule -i my-tomcat.pp
 ```
 
  * Where -ui is the user tomcat runs under.
- * Restart tomcat server and try again.
+ * Restart tomcat server and try again 
 
-b. tomcat or app issue
+### Tomcat or app issue
 
 If selinux is not the culprit, you'll need to view the tomcat log and see what's going wrong. 
 
@@ -120,80 +144,8 @@ If selinux is not the culprit, you'll need to view the tomcat log and see what's
 journalctl -u tomcat
 ```
 
-c. Access the container's file system:
-
+### Access the container's file system:
 
 ```
 docker exec -it fortress bash
 ```
-
-d. more selinux breadcrumbs, notes, etc...
-
-```
-type=AVC msg=audit(1616686701.099:3630): avc:  denied  { name_connect } for  pid=10595 comm="localhost-start" dest=32768 scontext=system_u:system_r:tomcat_t:s0 tcontext=system_u:object_r:ephemeral_port_t:s0 tclass=tcp_socket permissive=0
-```
-
-ausearch -c 'tomcat' --raw | audit2allow -M my-slapd
-
-
-TODO: Add this selinux policy rule for tomcat access to ephemeral_port:
-
-```
-allow tomcat_t ephemeral_port_t : tcp_socket name_bind 
-```
-
-More on ausearch:
-
-
-```bash
-usage: ausearch [options]
-        -a,--event <Audit event id>     search based on audit event id
-        --arch <CPU>                    search based on the CPU architecture
-        -c,--comm  <Comm name>          search based on command line name
-        --checkpoint <checkpoint file>  search from last complete event
-        --debug                 Write malformed events that are skipped to stderr
-        -e,--exit  <Exit code or errno> search based on syscall exit code
-        -f,--file  <File name>          search based on file name
-        --format [raw|default|interpret|csv|text] results format options
-        -ga,--gid-all <all Group id>    search based on All group ids
-        -ge,--gid-effective <effective Group id>  search based on Effective
-                                        group id
-        -gi,--gid <Group Id>            search based on group id
-        -h,--help                       help
-        -hn,--host <Host Name>          search based on remote host name
-        -i,--interpret                  Interpret results to be human readable
-        -if,--input <Input File name>   use this file instead of current logs
-        --input-logs                    Use the logs even if stdin is a pipe
-        --just-one                      Emit just one event
-        -k,--key  <key string>          search based on key field
-        -l, --line-buffered             Flush output on every line
-        -m,--message  <Message type>    search based on message type
-        -n,--node  <Node name>          search based on machine's name
-        -o,--object  <SE Linux Object context> search based on context of object
-        -p,--pid  <Process id>          search based on process id
-        -pp,--ppid <Parent Process id>  search based on parent process id
-        -r,--raw                        output is completely unformatted
-        -sc,--syscall <SysCall name>    search based on syscall name or number
-        -se,--context <SE Linux context> search based on either subject or
-                                         object
-        --session <login session id>    search based on login session id
-        -su,--subject <SE Linux context> search based on context of the Subject
-        -sv,--success <Success Value>   search based on syscall or event
-                                        success value
-        -te,--end [end date] [end time] ending date & time for search
-        -ts,--start [start date] [start time]   starting data & time for search
-        -tm,--terminal <TerMinal>       search based on terminal
-        -ua,--uid-all <all User id>     search based on All user id's
-        -ue,--uid-effective <effective User id>  search based on Effective
-                                        user id
-        -ui,--uid <User Id>             search based on user id
-        -ul,--loginuid <login id>       search based on the User's Login id
-        -uu,--uuid <guest UUID>         search for events related to the virtual
-                                        machine with the given UUID.
-        -v,--version                    version
-        -vm,--vm-name <guest name>      search for events related to the virtual
-                                        machine with the name.
-        -w,--word                       string matches are whole word
-        -x,--executable <executable name>  search based on executable name
-```
-
