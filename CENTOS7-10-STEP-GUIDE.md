@@ -94,12 +94,12 @@ Enter host password for user 'adminuser':
 
 c. More examples here: [README-TESTING](README-TESTING.md)
 
-## Apendix: Troubleshooting
+## Appendix: Troubleshooting
 
 ### SELinux
 
 if there's not a response returning via the curl command it could be an SELinux permission violation.
-A policy was created and loaded during setup, ...
+A policy was created and loaded during setup.
 
 i. You can check its log (for tomcat):
 
@@ -121,18 +121,15 @@ t permissive=0
 
 #### Discussion
 
-Here we can see that selinux is blocking the tomcat process from accessing an ldap port, 32768 which happens to be the default port for a directory server when running inside a docker container.  
-If you used the default config supplied by the quickstart, the port will be set to 32768.  Any port over 327, which is an ephemeral_port_t.
+Here we can see that SELinux is blocking the Tomcat process from accessing an ldap port, 32768 which happens to be the default port for a directory server when running inside a docker container.  
+If you used the default config supplied by the quickstart, the port will be set to 32768.
 
-We applied an SELinux policy to Tomcat to access LDAP in the setup so this shouldn't happen.  It it does you can work around it by performing the following and opening an issue on this project.
-
-We can work around this by:
+We applied an SELinux policy to Tomcat to access LDAP in the setup so this 'shouldn't' happen.  But, if does you can work around it by performing the next step and then opening an issue on this project so we can update the policy.
 
 ```bash
 ausearch -ui tomcat --raw | audit2allow -M my-tomcat
 semodule -i my-tomcat.pp
 ```
-
  * Where -ui is the user tomcat runs under.
  * Restart tomcat server and try again 
 
