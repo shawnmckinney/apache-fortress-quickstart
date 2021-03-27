@@ -36,12 +36,10 @@ systemctl enable docker
 systemctl start docker
 ```
 
-3. Clone Fortress Quickstart and pull artifacts:
+3. Clone Fortress Quickstart
 
 ```bash
 git clone https://github.com/shawnmckinney/apache-fortress-quickstart.git /tmp/fortress
-wget https://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-realm-proxy/2.0.5/fortress-realm-proxy-2.0.5.jar -P /tmp/fortress
-wget https://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-rest/2.0.5/fortress-rest-2.0.5.war -P /tmp/fortress
 ```
 
 4. Pull LDAP container and start inside bridged network:
@@ -84,7 +82,6 @@ Enter host password for user 'adminuser':
 ```
 
 c. More examples here: [README-TESTING](README-TESTING.md)
-
 
 ## Appendix: Troubleshooting
 
