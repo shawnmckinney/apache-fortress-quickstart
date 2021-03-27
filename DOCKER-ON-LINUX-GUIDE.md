@@ -88,14 +88,18 @@ c. More examples here: [README-TESTING](README-TESTING.md)
 
 ## Appendix: Troubleshooting
 
-### Access the container's file system:
+### Access the container's file system
+
+Connect to running containers via bash:
 
 ```
 docker exec -it openldap-fortress bash
 docker exec -it tomcat-fortress bash
 ```
 
-11. Helpful Docker commands:
+### More Helpful Docker commands:
+
+View the bridged network info:
 
 ```bash
 docker network ls
