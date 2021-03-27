@@ -144,5 +144,5 @@ journalctl -u tomcat
 ### Access the container's file system:
 
 ```
-docker exec -it fortress bash
+docker exec -it openldap-fortress bash
 ```
