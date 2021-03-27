@@ -11,7 +11,7 @@
 
 1. Install required packages 
 
-a. Debian
+Debian
 
 ```bash
 apt-get update
@@ -23,7 +23,7 @@ apt-cache policy docker-ce
 apt install docker-ce -y
 ```
 
-b. Redhat
+Redhat
 
 ```bash
 yum install wget git java maven docker -y
