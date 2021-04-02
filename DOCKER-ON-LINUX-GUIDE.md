@@ -11,7 +11,7 @@
 
 1. Install required packages 
 
-Debian
+a. Debian
 
 ```bash
 apt-get update
@@ -23,10 +23,22 @@ apt-cache policy docker-ce
 apt install docker-ce -y
 ```
 
-Redhat
+or 
+
+b. RHEL7/Centos7
 
 ```bash
 yum install wget git java maven docker -y
+```
+
+or
+
+c. RHEL8/Centos8
+
+```bash
+yum install -y yum-utils wget git java maven -y 
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce docker-ce-cli containerd.io -y
 ```
 
 2. Enable and start Docker:
