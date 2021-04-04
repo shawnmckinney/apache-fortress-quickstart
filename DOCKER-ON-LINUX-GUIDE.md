@@ -56,10 +56,22 @@ git clone https://github.com/shawnmckinney/apache-fortress-quickstart.git /tmp/f
 
 4. Pull LDAP container and start inside bridged network:
 
+a. OpenLDAP 2.4
+
 ```bash
 docker network create --driver bridge fortress-net
 docker pull apachedirectory/openldap-for-apache-fortress-tests
 docker run --name=openldap-fortress --network fortress-net -d -p 32768:389 -P apachedirectory/openldap-for-apache-fortress-tests
+```
+
+or
+
+b. OpenLDAP 2.5 Beta
+
+```bash
+docker network create --driver bridge fortress-net
+docker pull shawnmckinney/iamfortress:openldap-for-linux
+docker run  --name=openldap-fortress --network fortress-net -d -p 32768:389 -P shawnmckinney/iamfortress:openldap-for-linux
 ```
 
 5. Load the LDAP Directory with Bootstrap Data:

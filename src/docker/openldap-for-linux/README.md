@@ -36,14 +36,8 @@ Push image to docker hub:
 docker push shawnmckinney/iamfortress:openldap-for-linux
 ``` 
 
+Run image:
+
 ```bash
-docker build -t tomcat-fortress -f Dockerfile .
 docker run  -d -p 32768:389 -P shawnmckinney/iamfortress:openldap-for-linux
-
-docker run -d -p 32768:389 -P shawnmckinney/iamfortress:openldap-for-linux
-
-docker tag openldap-for-linux shawnmckinney/iamfortress/openldap-for-linux
-
-docker push shawnmckinney/iamfortress:openldap-for-linux
 ```
-
