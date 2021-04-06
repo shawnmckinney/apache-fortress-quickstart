@@ -39,5 +39,12 @@ docker push shawnmckinney/iamfortress:openldap-for-linux
 Run image:
 
 ```bash
-docker run  -d -p 32768:389 -P shawnmckinney/iamfortress:openldap-for-linux
+docker run --name=openldap-fortress -d -p 32768:389 -P shawnmckinney/iamfortress:openldap-for-linux
 ```
+
+Connect to running containers via bash:
+
+```
+docker exec -it openldap-fortress bash
+```
+
