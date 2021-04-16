@@ -27,8 +27,8 @@ RUN yum install openldap25-libs openldap25-clients openldap25-server libevent -y
 
 # Add fortress schema and slapd config
 ADD https://raw.githubusercontent.com/apache/directory-fortress-core/master/ldap/schema/fortress.schema /opt/openldap25/etc/openldap/schema/
-ADD https://raw.githubusercontent.com/apache/directory-fortress-core/master/ldap/schema/rbac.schema /opt/openldap25/etc/openldap/schema/
 ADD src/docker/openldap-for-linux/slapd.conf /opt/openldap25/etc/openldap/
+ADD src/docker/openldap-for-linux/rfc2307bis.schema /opt/openldap25/etc/openldap/schema/
 
 # Create database directories
 RUN mkdir -p "/var/lib/ldap/openldap-data/dc=example,dc=com"
