@@ -22,7 +22,6 @@ OpenLDAP for Linux Apache Fortress tests
 This directory contains
 
 * a `Dockerfile` for building a Docker image with preconfigured for Fortress to run on OpenLDAP for Linux
-* a `run-tests.sh` script that start such a Docker container and executes the Fortress tests against it
 
 Build image (run from fortress-core root folder)
 
