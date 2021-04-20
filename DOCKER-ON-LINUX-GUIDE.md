@@ -120,6 +120,13 @@ docker exec -it tomcat-fortress bash
 
 ### More Helpful Docker commands:
 
+View the logs:
+
+```bash
+docker logs openldap-fortress
+docker logs tomcat-fortress
+```
+
 View the bridged network info:
 
 ```bash
