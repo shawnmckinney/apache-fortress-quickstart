@@ -54,26 +54,13 @@ systemctl start docker
 git clone https://github.com/shawnmckinney/apache-fortress-quickstart.git /tmp/fortress
 ```
 
-4. Pull LDAP container and start inside bridged network:
-
-a. OpenLDAP 2.4
-
-```bash
-docker network create --driver bridge fortress-net
-docker pull apachedirectory/openldap-for-apache-fortress-tests
-docker run --name=openldap-fortress --network fortress-net -d -p 32768:389 -P apachedirectory/openldap-for-apache-fortress-tests
-```
-
-or
-
-b. Symas OpenLDAP 2.5
+4. Pull Symas OpenLDAP 2.5 container and run inside a bridged network:
 
 ```bash
 docker network create --driver bridge fortress-net
 docker pull shawnmckinney/iamfortress:symas-openldap
 docker run  --name=openldap-fortress --network fortress-net -d -p 32768:389 -P shawnmckinney/iamfortress:symas-openldap
 ```
-
 
 5. Load the LDAP Directory with Bootstrap Data:
 
@@ -83,15 +70,14 @@ mvn -f /tmp/fortress/pom.xml install -Dload.file=src/main/resources/FortressBoot
 mvn -f /tmp/fortress/pom.xml install -Dload.file=src/main/resources/FortressRestServerPolicy.xml
 ```
 
-6. Build and run tomcat-fortress Dockerfile on target:
+6. Pull tomcat-fortress container and run inside a bridged network:
 
 ```bash
-cd /tmp/fortress
-docker build -t tomcat-fortress -f Dockerfile .
+docker pull shawnmckinney/iamfortress:tomcat-fortress
 docker run --name=tomcat-fortress --network fortress-net -d -p 8080:8080 tomcat-fortress
 ```
 
-7. Test Services:
+7. Test Apache Fortress REST Services:
 
 a. Invoke with curl:
 
