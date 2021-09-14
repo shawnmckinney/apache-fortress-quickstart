@@ -1,7 +1,7 @@
-# Overview of the apache-fortress-quickstart for Docker on Linux
+# Overview of the docker-quickstart
 
 * Shows how to install Apache Fortress Rest component onto a Debian or Centos machine.
-* Both OpenLDAP 2.5 and Apache Tomcat processes run inside separate Docker containers that are connected via a bridge network.  
+* Both OpenLDAP 2.5 and Apache Tomcat processes run inside Docker containers connected via a bridge network.  
 * Once system is setup, test services using curl, find out how here: [README-TESTING](README-TESTING.md)
 
 ## Tutorial Prereqs
