@@ -52,3 +52,9 @@ Connect to running containers via bash:
 ```
 docker exec -it openldap-fortress bash
 ```
+
+Troubleshooting:
+
+```bash
+docker logs -f --until=120s openldap-fortress
+```

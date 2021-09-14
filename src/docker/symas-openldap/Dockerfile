@@ -39,6 +39,7 @@ RUN useradd ldap -g ldap
 RUN chown -R ldap:ldap /opt/symas/lib/
 RUN chown -R ldap:ldap /var/run/openldap/
 RUN chown -R ldap:ldap /opt/symas/etc/openldap/
+RUN chown -R ldap:ldap /var/symas/openldap-data/
 
 # Test
 RUN /opt/symas/sbin/slaptest -u -f /opt/symas/etc/openldap/slapd.conf
