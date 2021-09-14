@@ -41,7 +41,16 @@
 
  ```
  docker pull apachedirectory/apacheds-for-apache-fortress-tests
- docker run --name=fortress -d  -p 32768:10389 -P apachedirectory/apacheds-for-apache-fortress-tests  
+ docker run --name=fortress -d -p 32768:10389 -P apachedirectory/apacheds-for-apache-fortress-tests  
+ ```
+
+ -- Or --
+
+ Option C: Pull and run the Symas OpenLDAP prebuilt image:
+
+ ```
+ docker pull shawnmckinney/iamfortress:symas-openldap
+ docker run  --name=fortress --network fortress-net -d -p 32768:389 -P shawnmckinney/iamfortress:symas-openldap
  ```
 
  *depending on your docker setup may need to run as root or sudo priv's.

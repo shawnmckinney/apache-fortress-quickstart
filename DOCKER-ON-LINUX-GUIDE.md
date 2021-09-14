@@ -1,7 +1,7 @@
 # Overview of the apache-fortress-quickstart for Docker on Linux
 
 * Shows how to install Apache Fortress Rest component onto a Debian or Centos machine.
-* Both OpenLDAP and Apache Tomcat processes run inside separate Docker containers that are connected via a bridge network.  
+* Both OpenLDAP 2.5 and Apache Tomcat processes run inside separate Docker containers that are connected via a bridge network.  
 * Once system is setup, test services using curl, find out how here: [README-TESTING](README-TESTING.md)
 
 ## Tutorial Prereqs
@@ -66,13 +66,14 @@ docker run --name=openldap-fortress --network fortress-net -d -p 32768:389 -P ap
 
 or
 
-b. OpenLDAP 2.5 Beta
+b. Symas OpenLDAP 2.5
 
 ```bash
 docker network create --driver bridge fortress-net
-docker pull shawnmckinney/iamfortress:openldap-for-linux
-docker run  --name=openldap-fortress --network fortress-net -d -p 32768:389 -P shawnmckinney/iamfortress:openldap-for-linux
+docker pull shawnmckinney/iamfortress:symas-openldap
+docker run  --name=openldap-fortress --network fortress-net -d -p 32768:389 -P shawnmckinney/iamfortress:symas-openldap
 ```
+
 
 5. Load the LDAP Directory with Bootstrap Data:
 

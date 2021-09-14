@@ -21,7 +21,7 @@ Symas OpenLDAP Apache Fortress tests
 
 This directory contains
 
-* a `Dockerfile` for building a Docker image with preconfigured for Fortress to run Symas OpenLDAP
+* a `Dockerfile` for building a Docker image with preconfigured for Fortress to run Symas OpenLDAP 2.5
 
 Build image (run from fortress-core root folder)
 
@@ -56,5 +56,5 @@ docker exec -it openldap-fortress bash
 Troubleshooting:
 
 ```bash
-docker logs -f --until=120s openldap-fortress
+docker logs openldap-fortress
 ```
