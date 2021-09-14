@@ -29,29 +29,18 @@
 
  You may use the ApacheFortress Docker images for either OpenLDAP or ApacheDS:
 
- Option A: Pull and run the OpenLDAP prebuilt image:
+ Option A: Pull and run the Symas OpenLDAP 2.5 prebuilt image:
 
  ```
- docker pull apachedirectory/openldap-for-apache-fortress-tests
- docker run --name=fortress -d  -p 32768:389 -P apachedirectory/openldap-for-apache-fortress-tests 
+ docker pull shawnmckinney/iamfortress:symas-openldap
+ docker run  --name=openldap-fortress -d -p 32768:389 -P shawnmckinney/iamfortress:symas-openldap
  ```
-
- -- Or --
 
  Option B: Pull and run the ApacheDS prebuilt image:
 
  ```
  docker pull apachedirectory/apacheds-for-apache-fortress-tests
- docker run --name=fortress -d -p 32768:10389 -P apachedirectory/apacheds-for-apache-fortress-tests  
- ```
-
- -- Or --
-
- Option C: Pull and run the Symas OpenLDAP prebuilt image:
-
- ```
- docker pull shawnmckinney/iamfortress:symas-openldap
- docker run  --name=fortress --network fortress-net -d -p 32768:389 -P shawnmckinney/iamfortress:symas-openldap
+ docker run --name=apacheds-fortress -d -p 32768:10389 -P apachedirectory/apacheds-for-apache-fortress-tests  
  ```
 
  *depending on your docker setup may need to run as root or sudo priv's.
@@ -213,4 +202,4 @@ Set the java system properties in tomcat with the target ldap server's coordinat
   wget https://repo.maven.apache.org/maven2/org/apache/directory/fortress/fortress-rest/[VERSION]/fortress-rest-[VERSION].war -P $TOMCAT_HOME/webapps
   ```
 
-  * Where *TOMCAT_HOME* matches your target env and *[VERSION]* is latest Fortress Rest Component, as of today *2.0.5*.
+  * Where *TOMCAT_HOME* matches your target env and *[VERSION]* is latest Fortress Rest Component, as of today *2.0.6*.
