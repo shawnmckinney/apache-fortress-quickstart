@@ -5,6 +5,7 @@
 
  * This sample shows how to invoke Apache Fortress APIs using REST via command-line invocations w/ curl.
  * It also shows how to install Apache Fortress Rest component into an Apache Tomcat server instance and connect to a properly configured LDAP server.
+ * Use the [DOCKER-QUICKSTART](./DOCKER-QUICKSTART.md) to run everything inside Docker containers.
  * The samples load a fictional security policy that correspond with another fortress sample called the [rbac-abac-sample](https://github.com/shawnmckinney/rbac-abac-sample).
  * Once system is setup, test services using curl, find out how here: [README-TESTING](README-TESTING.md)
 -------------------------------------------------------------------------------
