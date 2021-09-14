@@ -74,7 +74,7 @@ mvn -f /tmp/fortress/pom.xml install -Dload.file=src/main/resources/FortressRest
 
 ```bash
 docker pull shawnmckinney/iamfortress:tomcat-fortress
-docker run --name=tomcat-fortress --network fortress-net -d -p 8080:8080 tomcat-fortress
+docker run --name=tomcat-fortress --network fortress-net -d -p 8080:8080 shawnmckinney/iamfortress:tomcat-fortress
 ```
 
 7. Test Apache Fortress REST Services:
