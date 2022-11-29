@@ -396,6 +396,7 @@ Note: This service not available until [VERSION] release.
 
 * Apache Fortress Rest is a JAX-RS Web application that allows the Apache Fortress Core APIs to be called over an HTTP interface.
 * It deploys inside of any compliant Java Servlet container although here we'll be using Apache Tomcat.
+* [More Info](https://github.com/apache/directory-fortress-enmasse/blob/master/README-SECURITY-MODEL.md)
 
 ### Apache Fortress Rest security model includes:
 
